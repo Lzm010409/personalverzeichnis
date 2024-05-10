@@ -16,9 +16,7 @@ import de.lukegoll.personalverzeichnis.domain.entities.Capability;
 public interface CapabilityRepository extends JpaRepository<Capability, UUID>, PagingAndSortingRepository<Capability, UUID> {
 
 	
-    Page<Capability> findPaginatedByKeyword(@Param("searchTerm") String keyword, Pageable pageable);
-
-
+ 
 
 
     Page<Capability> findAllByOrderByCreateDateDesc(Pageable pageable);

@@ -1,0 +1,34 @@
+<div th:fragment="alert(type,message)" th:id="${type}+'Alert'"
+     th:class="'alert alert-'+${type}+ ' alert-dismissible fade show'"
+     role="alert" th:if="${message}">
+    <strong th:text="${message}"></strong>
+    <button th:id="'close'+${type}+'AlertButton'" type="button" class="btn-close" data-bs-dismiss="alert"
+            aria-label="Close"></button>
+    <script type="text/javascript">
+        const successClear = document.getElementById("closesuccessAlertButton")
+        const warningClear = document.getElementById("closewarningAlertButton")
+        const errorClear = document.getElementById("closeerrorAlertButton")
+
+        if (successClear) {
+            successClear.addEventListener("click", (e) => {
+                e.preventDefault();
+                const alert = document.getElementById("successAlert");
+                alert.style.display = "none";
+            })
+        }
+        if (warningClear) {
+            warningClear.addEventListener("click", (e) => {
+                e.preventDefault();
+                const alert = document.getElementById("warningAlert");
+                alert.style.display = "none";
+            })
+        }
+        if (errorClear) {
+            errorClear.addEventListener("click", (e) => {
+                e.preventDefault();
+                const alert = document.getElementById("errorAlert");
+                alert.style.display = "none";
+            })
+        }
+    </script>
+</div>

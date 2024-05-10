@@ -12,13 +12,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name="employees")
+@Table(name="capabilities")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class Capability extends AbstractEntity{
 	
-	@OneToOne(mappedBy = "capabilityType")
+	@OneToOne(mappedBy = "capability")
 	private CapabilityType capabilityType; 
 	
 	@Column(name = "weight")

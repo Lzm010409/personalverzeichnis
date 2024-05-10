@@ -16,8 +16,6 @@ import de.lukegoll.personalverzeichnis.domain.entities.Employment;
 public interface EmploymentRepository extends JpaRepository<Employment, UUID>, PagingAndSortingRepository<Employment, UUID> {
 
 	
-    Page<Employment> findPaginatedByKeyword(@Param("searchTerm") String keyword, Pageable pageable);
-
 
 
 

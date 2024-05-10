@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Employment {
+public class Employment extends AbstractEntity{
 	
 	@Column(name = "start_date")
 	private LocalDate startDate;

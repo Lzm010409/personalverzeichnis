@@ -16,7 +16,7 @@ import de.lukegoll.personalverzeichnis.domain.entities.Department;
 public interface DepartmentRepository extends JpaRepository<Department, UUID>, PagingAndSortingRepository<Department, UUID> {
 
 	
-    Page<Department> findPaginatedByKeyword(@Param("searchTerm") String keyword, Pageable pageable);
+   
 
 
 

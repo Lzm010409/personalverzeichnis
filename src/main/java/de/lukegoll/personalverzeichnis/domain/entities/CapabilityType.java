@@ -23,7 +23,7 @@ public class CapabilityType extends AbstractEntity{
 	
 	
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "capability_type", referencedColumnName = "id")
-	private CapabilityType capabilityType;
+    @JoinColumn(name = "capability", referencedColumnName = "id")
+	private Capability capability;
 
 }
