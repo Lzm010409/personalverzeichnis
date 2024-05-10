@@ -1,38 +1,31 @@
 package de.lukegoll.personalverzeichnis.domain.entities;
 
-import java.time.LocalDate;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name="employments")
+@Table(name="employees")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Employment {
+public class Capability extends AbstractEntity{
 	
-	@Column(name = "start_date")
-	private LocalDate startDate;
+	@OneToOne(mappedBy = "capabilityType")
+	private CapabilityType capabilityType; 
 	
-	@Column(name = "end_date")
-	private LocalDate endDate; 
+	@Column(name = "weight")
+	private long weight;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "employee",nullable = false)
-	private Employee employee; 
-	
-	
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "department",nullable = false)
-	private Department department;
-
+	private Employee employee;
 
 }

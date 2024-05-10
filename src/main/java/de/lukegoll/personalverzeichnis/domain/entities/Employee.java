@@ -1,7 +1,11 @@
 package de.lukegoll.personalverzeichnis.domain.entities;
 
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -41,5 +45,11 @@ public class Employee extends AbstractEntity{
 	
 	@Column(name = "mail")
 	private String mail; 
+	
+	@OneToMany(mappedBy = "employee", fetch = FetchType.EAGER, targetEntity = Employment.class)
+	private List<Employment> employments;
+	
+	@OneToMany(mappedBy = "employee", fetch = FetchType.EAGER, targetEntity = Capability.class)
+	private List<Capability> capabilities;
 
 }
