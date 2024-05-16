@@ -49,6 +49,9 @@ public class Employee extends AbstractEntity {
     @OneToMany(mappedBy = "employee", fetch = FetchType.EAGER, targetEntity = Capability.class, cascade = CascadeType.ALL)
     private List<Capability> capabilities = new ArrayList<>();
 
+    @OneToMany(mappedBy = "employee", fetch = FetchType.EAGER, targetEntity = Timesheet.class, cascade = CascadeType.ALL)
+    private List<Timesheet> timesheets = new ArrayList<>();
+
 
     public void removeEmployment(Employment employment) {
         this.employments.remove(employment);
@@ -57,6 +60,15 @@ public class Employee extends AbstractEntity {
     public void attachEmployment(Employment employment) {
         this.employments.add(employment);
         employment.setEmployee(this);
+    }
+
+    public void removeTimesheet(Timesheet timesheet) {
+        this.timesheets.remove(timesheet);
+    }
+
+    public void attachTimesheet(Timesheet timesheet) {
+        this.timesheets.add(timesheet);
+        timesheet.setEmployee(this);
     }
 
 }

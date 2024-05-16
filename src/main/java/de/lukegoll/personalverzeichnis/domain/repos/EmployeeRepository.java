@@ -1,6 +1,7 @@
 package de.lukegoll.personalverzeichnis.domain.repos;
 
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.data.domain.Page;
@@ -24,6 +25,18 @@ public interface EmployeeRepository extends JpaRepository<Employee, UUID>, Pagin
             " order by c.createDate desc ")
     Page<Employee> findPaginatedByKeyword(@Param("searchTerm") String keyword, Pageable pageable);
 
+        @Query("""
+                      SELECT e
+                      FROM Employee e
+                      WHERE NOT EXISTS (
+                          SELECT t
+                          FROM Timesheet t
+                          WHERE t.employee = e
+                          AND t.endTime is NULL 
+                      )
+            
+                """)
+    List<Employee> findAllWhichArentStampedIn();
 
     Page<Employee> findAllByOrderByCreateDateDesc(Pageable pageable);
 

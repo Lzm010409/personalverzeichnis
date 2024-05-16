@@ -67,6 +67,16 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 
     @Override
+    public List<Employee> findAllWhichArentStampedIn() {
+        try {
+            return employeeRepository.findAllWhichArentStampedIn();
+        } catch (Exception e) {
+            throw new EmployeeServiceException("Es ist ein Fehler beim Abrufen der Capabilities aufgetreten..." + e.getMessage(), e);
+        }
+    }
+
+
+    @Override
     public Optional<Employee> findById(UUID id) {
         try {
             return employeeRepository.findById(id);
