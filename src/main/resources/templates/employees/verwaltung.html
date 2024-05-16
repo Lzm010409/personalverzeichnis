@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-   <title th:text="${title}"></title>
+    <title th:text="${title}"></title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
@@ -51,11 +51,11 @@
     <div th:replace="~{fragments/alert :: alert(danger,${danger})}"></div>
     <div th:replace="~{fragments/alert :: alert(warning,${warning})}"></div>
     <div class="pagetitle">
-        <h1>Kontakte</h1>
+        <h1>Mitarbeiter</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a th:href="@{/home}">Home</a></li>
-            
+                <li class="breadcrumb-item"><a th:href="@{/}">Mitarbeiter</a></li>
+
             </ol>
         </nav>
     </div>
@@ -65,14 +65,15 @@
                 <div class="card-body flex-column">
                     <div class="row">
                         <div class="col-sm-2">
-                            <h5 class="card-title">Übersicht der Kontakte</h5>
+                            <h5 class="card-title">Übersicht der Mitarbeiter</h5>
                         </div>
                         <div class="col-sm-8 pt-3">
-                            <form th:replace="~{fragments/searchform :: searchform(${keyword}, contacts)}"></form>
+                            <form th:replace="~{fragments/searchform :: searchform(${keyword}, '')}"></form>
                         </div>
                         <div class="col-sm-2 pt-4">
-                            <a th:href="@{/contacts/addContact}"
-                               class="btn btn-outline-primary btn-sm">Kontakt hinzufügen<i class="bi bi-plus"></i></a>
+                            <a th:href="@{/addEmployee}"
+                               class="btn btn-outline-primary btn-sm">Mitarbeiter hinzufügen<i
+                                    class="bi bi-plus"></i></a>
                         </div>
                     </div>
                     <div>
@@ -80,7 +81,7 @@
                             <thead>
                             <tr>
                                 <th>
-                                    Kontakttyp
+                                    Anrede
                                 </th>
 
                                 <th>
@@ -91,15 +92,24 @@
                                     Nachname
                                 </th>
                                 <th></th>
-                       
+
                             </tr>
                             </thead>
                             <tbody>
                             <tr th:id="'row' + employee" th:each="employee :${employees}">
-          
-                                <td th:text="${employee.surname}"></td>
+
+                                <td th:text="${employee.salutation}"></td>
+                                <td th:text="${employee.firstName}"></td>
                                 <td th:text="${employee.name}"></td>
-                               
+                                <td>
+                                    <a th:href="@{/{id}(id=${employee.id})}"
+                                       class="btn btn-info btn-sm"><i class="bi bi-eye-fill"></i></a>
+                                </td>
+                                <td>
+                                    <a th:href="@{/{id}/deleteEmployee(id=${employee.id})}"
+                                       class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></a>
+                                </td>
+
                             </tr>
                             </tbody>
 
@@ -108,28 +118,28 @@
                     <nav aria-label="Pagination" th:if="${totalPages > 0}">
                         <ul class="pagination justify-content-center">
                             <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled'">
-                                <a th:replace="~{fragments/paging :: paging('contacts',1, '<<', 'Erste Seite',${pageSize},${caseId})}"></a>
+                                <a th:replace="~{fragments/paging :: paging('',1, '<<', 'Erste Seite',${pageSize})}"></a>
                             </li>
                             <li class="page-item font-weight-bold"
                                 th:classappend="${currentPage == 1} ? 'disabled'">
-                                <a th:replace="~{fragments/paging :: paging('contacts',${currentPage - 1}, 'Vorherige', 'Vorherige Seite',${pageSize},${caseId})}"></a>
+                                <a th:replace="~{fragments/paging :: paging('',${currentPage - 1}, 'Vorherige', 'Vorherige Seite',${pageSize})}"></a>
                             </li>
                             <li class="page-item disabled" th:if="${currentPage - 2 > 1}">
                                 <a class="page-link" href="#">...</a>
                             </li>
                             <li class="page-item" th:classappend="${page == currentPage} ? 'active'"
                                 th:each="page : ${#numbers.sequence(currentPage > 2 ? currentPage - 2 : 1, currentPage + 2 < totalPages ? currentPage + 2 : totalPages)}">
-                                <a th:replace="~{fragments/paging :: paging('contacts',${page}, ${page}, 'Seite ' + ${page},${pageSize},${caseId})}"></a>
+                                <a th:replace="~{fragments/paging :: paging('',${page}, ${page}, 'Seite ' + ${page},${pageSize})}"></a>
                             </li>
                             <li class="page-item disabled" th:if="${currentPage + 2 < totalPages}">
                                 <a class="page-link" href="#">...</a>
                             </li>
                             <li class="page-item font-weight-bold"
                                 th:classappend="${currentPage == totalPages} ? 'disabled'">
-                                <a th:replace="~{fragments/paging :: paging('contacts',${currentPage + 1},'Nächste', 'Nächste Seite',${pageSize},${caseId})}"></a>
+                                <a th:replace="~{fragments/paging :: paging('',${currentPage + 1},'Nächste', 'Nächste Seite',${pageSize})}"></a>
                             </li>
                             <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled'">
-                                <a th:replace="~{fragments/paging :: paging('contacts',${totalPages}, '>>', 'Letzte Seite',${pageSize},${caseId})}"></a>
+                                <a th:replace="~{fragments/paging :: paging('',${totalPages}, '>>', 'Letzte Seite',${pageSize})}"></a>
                             </li>
                         </ul>
                     </nav>

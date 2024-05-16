@@ -12,7 +12,9 @@ import de.lukegoll.personalverzeichnis.domain.entities.CapabilityType;
 import de.lukegoll.personalverzeichnis.domain.exceptions.CapabilityTypeServiceException;
 import de.lukegoll.personalverzeichnis.domain.repos.CapabilityTypeRepository;
 import de.lukegoll.personalverzeichnis.domain.services.CapabilityTypeService;
+import org.springframework.stereotype.Service;
 
+@Service
 public class CapabilityTypeServiceImpl implements CapabilityTypeService{
 
 	
