@@ -1,12 +1,8 @@
 package de.lukegoll.personalverzeichnis.domain.services.impl;
 
-import de.lukegoll.personalverzeichnis.domain.entities.Capability;
 import de.lukegoll.personalverzeichnis.domain.entities.Timesheet;
-import de.lukegoll.personalverzeichnis.domain.exceptions.CapabilityServiceException;
 import de.lukegoll.personalverzeichnis.domain.exceptions.TimesheetServiceException;
-import de.lukegoll.personalverzeichnis.domain.repos.CapabilityRepository;
 import de.lukegoll.personalverzeichnis.domain.repos.TimesheetRepository;
-import de.lukegoll.personalverzeichnis.domain.services.CapabilityService;
 import de.lukegoll.personalverzeichnis.domain.services.TimesheetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -50,6 +46,15 @@ public class TimesheetServiceImpl implements TimesheetService {
         }
     }
 
+
+    @Override
+    public List<Timesheet> findAllByEmployeeId(UUID id) {
+        try {
+            return timesheetRepository.findAllByEmployeeId(id);
+        } catch (Exception e) {
+            throw new TimesheetServiceException("Es ist ein Fehler beim Abrufen der Capabilities aufgetreten..." + e.getMessage(), e);
+        }
+    }
 
     @Override
     public Page<Timesheet> findPaged(Pageable pageable) {

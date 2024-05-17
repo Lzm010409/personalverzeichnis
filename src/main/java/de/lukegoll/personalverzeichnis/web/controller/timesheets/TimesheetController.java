@@ -3,12 +3,15 @@ package de.lukegoll.personalverzeichnis.web.controller.timesheets;
 import de.lukegoll.personalverzeichnis.domain.entities.Department;
 import de.lukegoll.personalverzeichnis.domain.entities.Employee;
 import de.lukegoll.personalverzeichnis.domain.entities.Timesheet;
+import de.lukegoll.personalverzeichnis.domain.entities.TimesheetWrapper;
 import de.lukegoll.personalverzeichnis.domain.exceptions.DepartmentServiceException;
 import de.lukegoll.personalverzeichnis.domain.exceptions.EmployeeServiceException;
 import de.lukegoll.personalverzeichnis.domain.exceptions.TimesheetServiceException;
 import de.lukegoll.personalverzeichnis.domain.services.DepartmentService;
 import de.lukegoll.personalverzeichnis.domain.services.EmployeeService;
 import de.lukegoll.personalverzeichnis.domain.services.TimesheetService;
+import de.lukegoll.personalverzeichnis.utils.dateutil.SortTimesheets;
+import de.lukegoll.personalverzeichnis.utils.mapper.impl.TimesheetToWrapperMapper;
 import de.lukegoll.personalverzeichnis.web.form.timesheet.TimesheetForm;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
@@ -85,6 +89,22 @@ public class TimesheetController {
             redirectAttributes.addFlashAttribute("danger", "Konnte nicht ausgestempelt werden, da ein Fehler aufgetreten ist: " + e.getMessage());
             return "redirect:/timesheet";
         }
+    }
+
+    @GetMapping("/{id}")
+    public String getAllTimesheet(@PathVariable("id") UUID employeeId, RedirectAttributes redirectAttributes, Model model) {
+        if (employeeId == null) {
+            redirectAttributes.addFlashAttribute("danger", "Stundenzettel konnten nicht bezogen werden, da keine Mitarbeiter ID übergeben wurde...");
+            return "redirect:/";
+        }
+        List<Timesheet> timesheets = timesheetService.findAllByEmployeeId(employeeId);
+        List<List<Timesheet>> sorted = SortTimesheets.sortTimesheets(timesheets);
+        List<TimesheetWrapper> timesheetWrappers = sorted.stream().map(list -> new TimesheetToWrapperMapper().mapTo(list)).toList();
+        model.addAttribute("timesheetsWrapper", timesheetWrappers);
+        model.addAttribute("title", "Stundenzettel anzeige");
+        model.addAttribute("employeeId", employeeId);
+        return "timesheet/timesheetsForEmployee";
+
     }
 
     @PostMapping("/stampIn")

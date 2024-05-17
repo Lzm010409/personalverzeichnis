@@ -1,0 +1,7 @@
+<div th:fragment="alert(timesheet)" th:id="${timesheet.start}">
+    <div class="d-flex flex-row">
+        <div th:text="${timesheet.start.getDayOfMonth()}"></div>
+        <div th:text="${#temporals.format(timesheet.start.toLocalDate(), 'dd.MM.yyyy')}"></div>
+
+    </div>
+</div>

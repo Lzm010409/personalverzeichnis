@@ -254,6 +254,43 @@
 
                         </div>
                     </div>
+                    <div class="card" th:if="${employeeForm.employee.id != null}">
+                        <div class="card-body">
+                            <div class="d-flex flex-row justify-content-between">
+                                <h3 class="pt-2">Stundenzettel</h3>
+
+                            </div>
+
+                            <table class="table table-sm" th:if="${employeeForm.employee.timesheets.size()>0}">
+                                <thead>
+                                <tr>
+                                    <th>
+                                        Name
+                                    </th>
+
+                                    <th>
+                                        Wert
+                                    </th>
+
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:id="'row' + timesheet"
+                                    th:each="timesheet :${employeeForm.employee.timesheets[0]}">
+                                    <td th:text="${#temporals.format(timesheet.startTime, 'dd.MM.yyyy HH:mm')}"></td>
+                                    <td th:text="${#temporals.format(timesheet.endTime, 'dd.MM.yyyy HH:mm')}"></td>
+
+                                </tr>
+                                </tbody>
+
+                            </table>
+                            <p th:unless="${employeeForm.employee.timesheets.size()>0}">Keine Stempelungen bekannt</p>
+                            <div>
+                                <a th:href="@{/timesheet/{id}(id=*{employee.id})}"
+                                   class="btn btn-info btn-sm"><i class="bi bi-eye"></i>Alle Stempelungen anzeigen</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <!--Buttons-->
