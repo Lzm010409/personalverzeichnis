@@ -24,5 +24,19 @@ public class Department extends AbstractEntity{
 	@OneToMany(mappedBy = "department", fetch = FetchType.EAGER, targetEntity = Employment.class)
 	List<Employment> employments;
 
+	public void removeEmployment(Employment employment) {
+		this.employments.remove(employment);
+	}
 
+	public void attachEmployment(Employment employment) {
+		this.employments.add(employment);
+		employment.setDepartment(this);
+	}
+
+	@Override
+	public String toString() {
+		return "Department{" +
+				"name='" + name + '\'' +
+				'}';
+	}
 }

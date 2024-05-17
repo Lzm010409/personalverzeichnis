@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title th:text="${title}"></title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+    <!-- Favicons -->
+    <link th:href="@{/styles/img/favicon.png}" rel="icon">
+    <link th:href="@{/styles/img/apple-touch-icon.png}" rel="apple-touch-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+          rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link th:href="@{/styles/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/styles/vendor/bootstrap-icons/bootstrap-icons.css}" rel="stylesheet">
+    <link th:href="@{/styles/vendor/boxicons/css/boxicons.min.css}" rel="stylesheet">
+    <link th:href="@{/styles/vendor/quill/quill.snow.css}" rel="stylesheet">
+    <link th:href="@{/styles/vendor/quill/quill.bubble.css}" rel="stylesheet">
+    <link th:href="@{/styles/vendor/remixicon/remixicon.css}" rel="stylesheet">
+    <link th:href="@{/styles/vendor/simple-datatables/style.css}" rel="stylesheet">
+
+    <!-- Template Main CSS File -->
+    <link th:href="@{/styles/css/style.css}" rel="stylesheet">
+
+    <!-- =======================================================
+    * Template Name: NiceAdmin
+    * Updated: Mar 09 2023 with Bootstrap v5.2.3
+    * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
+    * Author: BootstrapMade.com
+    * License: https://bootstrapmade.com/license/
+    ======================================================== -->
+</head>
+
+<body>
+
+<!-- ======= Header ======= -->
+<header th:replace="~{fragments/header :: header}"></header>
+<!-- ======= Sidebar ======= -->
+<aside th:replace="~{fragments/asideMenu :: sidebar}"></aside>
+
+<main id="main" class="main">
+    <div th:replace="~{fragments/alert :: alert(success,${success})}"></div>
+    <div th:replace="~{fragments/alert :: alert(danger,${danger})}"></div>
+    <div th:replace="~{fragments/alert :: alert(warning,${warning})}"></div>
+    <div class="pagetitle">
+        <h1>Abteilungen</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a th:href="@{/department}">Abteilungen</a></li>
+
+            </ol>
+        </nav>
+    </div>
+    <section id="dashboard-section">
+        <div class="row">
+            <div class="card">
+                <div class="card-body flex-column">
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <h5 class="card-title">Übersicht der Abteilungen</h5>
+                        </div>
+                        <div class="col-sm-8 pt-3">
+                            <form th:replace="~{fragments/searchform :: searchform(${keyword}, department)}"></form>
+                        </div>
+                        <div class="col-sm-2 pt-4">
+                            <a th:href="@{/department/addDepartment}"
+                               class="btn btn-outline-primary btn-sm">Abteilung hinzufügen<i
+                                    class="bi bi-plus"></i></a>
+                        </div>
+                    </div>
+                    <div>
+                        <table class="table table-sm">
+                            <thead>
+                            <tr>
+                                <th>
+                                    Erstellt am
+                                </th>
+
+                                <th>
+                                    Name
+                                </th>
+
+                                <th></th>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:id="'row' + department" th:each="department :${departments}">
+
+                                <td th:text="${#temporals.format(department.createDate, 'dd.MM.yyyy')}"></td>
+                                <td th:text="${department.name}"></td>
+                                <td>
+                                    <a th:href="@{/department/{id}(id=${department.id})}"
+                                       class="btn btn-info btn-sm"><i class="bi bi-eye-fill"></i></a>
+                                </td>
+                                <td>
+                                    <a th:href="@{/department/{id}/deleteDepartment(id=${department.id})}"
+                                       class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></a>
+                                </td>
+
+                            </tr>
+                            </tbody>
+
+                        </table>
+                    </div>
+                    <nav aria-label="Pagination" th:if="${totalPages > 0}">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled'">
+                                <a th:replace="~{fragments/paging :: paging('department',1, '<<', 'Erste Seite',${pageSize})}"></a>
+                            </li>
+                            <li class="page-item font-weight-bold"
+                                th:classappend="${currentPage == 1} ? 'disabled'">
+                                <a th:replace="~{fragments/paging :: paging('department',${currentPage - 1}, 'Vorherige', 'Vorherige Seite',${pageSize})}"></a>
+                            </li>
+                            <li class="page-item disabled" th:if="${currentPage - 2 > 1}">
+                                <a class="page-link" href="#">...</a>
+                            </li>
+                            <li class="page-item" th:classappend="${page == currentPage} ? 'active'"
+                                th:each="page : ${#numbers.sequence(currentPage > 2 ? currentPage - 2 : 1, currentPage + 2 < totalPages ? currentPage + 2 : totalPages)}">
+                                <a th:replace="~{fragments/paging :: paging('department',${page}, ${page}, 'Seite ' + ${page},${pageSize})}"></a>
+                            </li>
+                            <li class="page-item disabled" th:if="${currentPage + 2 < totalPages}">
+                                <a class="page-link" href="#">...</a>
+                            </li>
+                            <li class="page-item font-weight-bold"
+                                th:classappend="${currentPage == totalPages} ? 'disabled'">
+                                <a th:replace="~{fragments/paging :: paging('department',${currentPage + 1},'Nächste', 'Nächste Seite',${pageSize})}"></a>
+                            </li>
+                            <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled'">
+                                <a th:replace="~{fragments/paging :: paging('department',${totalPages}, '>>', 'Letzte Seite',${pageSize})}"></a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+</main>
+<footer id="footer" class="footer">
+    <div class="copyright">
+        &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
+    </div>
+    <div class="credits">
+        <!-- All the links in the footer should remain intact. -->
+        <!-- You can delete the links only if you purchased the pro version. -->
+        <!-- Licensing information: https://bootstrapmade.com/license/ -->
+        <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
+        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+    </div>
+</footer><!-- End Footer -->
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+        class="bi bi-arrow-up-short"></i></a>
+<script src="../../static/scripts/calendar.js"></script>
+<script src="../../static/scripts/closeAlert.js"></script>
+<script th:ref="@{/styles/vendor/apexcharts/apexcharts.min.js}"></script>
+<script th:ref="@{/styles/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<script th:ref="@{/styles/vendor/chart.js/chart.umd.js}"></script>
+<script th:ref="@{/styles/vendor/echarts/echarts.min.js}"></script>
+<script th:ref="@{/styles/vendor/quill/quill.min.js}"></script>
+<script th:ref="@{/styles/vendor/simple-datatables/simple-datatables.js}"></script>
+<script th:ref="@{/styles/vendor/tinymce/tinymce.min.js}"></script>
+<script th:ref="@{/styles/vendor/php-email-form/validate.js}"></script>
+
+<!-- Template Main JS File -->
+<script th:ref="@{/styles/js/main.js}"></script>
+
+</body>
+</html>

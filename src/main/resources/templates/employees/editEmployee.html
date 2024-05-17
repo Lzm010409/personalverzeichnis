@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title th:text="${title}"></title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+    <!-- Favicons -->
+    <link th:href="@{/styles/img/favicon.png}" rel="icon">
+    <link th:href="@{/styles/img/apple-touch-icon.png}" rel="apple-touch-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+          rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link th:href="@{/styles/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/styles/vendor/bootstrap-icons/bootstrap-icons.css}" rel="stylesheet">
+    <link th:href="@{/styles/vendor/boxicons/css/boxicons.min.css}" rel="stylesheet">
+    <link th:href="@{/styles/vendor/quill/quill.snow.css}" rel="stylesheet">
+    <link th:href="@{/styles/vendor/quill/quill.bubble.css}" rel="stylesheet">
+    <link th:href="@{/styles/vendor/remixicon/remixicon.css}" rel="stylesheet">
+    <link th:href="@{/styles/vendor/simple-datatables/style.css}" rel="stylesheet">
+
+    <!-- Template Main CSS File -->
+    <link th:href="@{/styles/css/style.css}" rel="stylesheet">
+
+    <!-- =======================================================
+    * Template Name: NiceAdmin
+    * Updated: Mar 09 2023 with Bootstrap v5.2.3
+    * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
+    * Author: BootstrapMade.com
+    * License: https://bootstrapmade.com/license/
+    ======================================================== -->
+</head>
+
+<body>
+
+<!-- ======= Header ======= -->
+<header th:replace="~{fragments/header :: header}">
+</header><!-- End Header -->
+
+<!-- ======= Sidebar ======= -->
+<aside th:replace="~{fragments/asideMenu :: sidebar}"></aside>
+
+<main id="main" class="main">
+    <div th:replace="~{fragments/alert :: alert(success,${success})}"></div>
+    <div th:replace="~{fragments/alert :: alert(danger,${danger})}"></div>
+    <div th:replace="~{fragments/alert :: alert(warning,${warning})}"></div>
+    <div class="pagetitle">
+        <h1 th:text="${employeeForm.employee.id} != null ? 'Mitarbeiter: ' + ${employeeForm.employee.firstName} +' '+ ${employeeForm.employee.name} : 'Neuen Mitarbeiter anlegen'"></h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a th:href="@{/}">Mitarbeiter</a></li>
+                <li th:if="${employeeForm.employee.id !=null}" class="breadcrumb-item active"
+                    th:text="${employeeForm.employee.firstName} +' '+ ${employeeForm.employee.name}">
+                    <a
+                            th:href="@{/{employeeId}(employeeId=${employeeForm.employee.id})}"></a></li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+    <section class="section">
+
+        <form th:object="${employeeForm}" action="#" th:action="@{/saveEmployee}" method="POST"
+              class="row g-3">
+            <div class="row pt-2">
+                <div class="col-md">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="pt-2">Mitarbeiter</h3>
+                            <!--<input type="hidden" th:field="*{personType}">-->
+                            <input id="contactId" type="hidden" th:field="*{employee.id}">
+                            <input type="hidden" th:field="*{employee.createDate}">
+                            <input type="hidden" th:field="*{employee.updateDate}">
+                            <input type="hidden" th:field="*{employee.version}">
+
+                            <div class="row pt-2">
+                                <div class="col-sm">
+                                    <label for="anredeK" class="form-label">Anrede</label>
+                                    <select id="anredeK" class="form-select" th:field="*{employee.salutation}">
+                                        <option th:each="option: ${salutation}" th:value="${option}"
+                                                th:text="${option.name}"></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row pt-2">
+                                <div class="col-sm">
+                                    <label for="vNameK" class="form-label">Vorname</label>
+                                    <input id="vNameK" type="text" class="form-control"
+                                           th:field="*{employee.firstName}">
+
+                                </div>
+                                <div class="col-sm">
+                                    <label for="nNameK" class="form-label">Nachname</label>
+                                    <input id="nNameK" type="text" class="form-control"
+                                           th:field="*{employee.name}">
+                                </div>
+                            </div>
+                            <div class="row pt-2">
+                                <div class="col-sm">
+                                    <label for="adresseK" class="form-label">Adresse</label>
+                                    <input id="adresseK" type="text" class="form-control"
+                                           th:field="*{employee.address}">
+
+                                </div>
+                                <div class="col-sm">
+                                    <label for="houseNumber" class="form-label">Hausnummer</label>
+                                    <input id="houseNumber" type="text" class="form-control"
+                                           th:field="*{employee.houseNumber}">
+
+                                </div>
+                            </div>
+                            <div class="row pt-2">
+                                <div class="col-sm">
+                                    <label for="plzK" class="form-label">Postleitzahl</label>
+                                    <input id="plzK" type="number" class="form-control"
+                                           th:field="*{employee.cityCode}">
+                                </div>
+                                <div class="col-sm">
+                                    <label for="stadtK" class="form-label">Stadt</label>
+                                    <input id="stadtK" type="text" class="form-control"
+                                           th:field="*{employee.city}">
+
+                                </div>
+                            </div>
+                            <div class="row pt-2">
+                                <div class="col-sm">
+                                    <label for="tel" class="form-label">Tel</label>
+                                    <input id="tel" type="text" class="form-control"
+                                           th:field="*{employee.tel}">
+                                </div>
+                                <div class="col-sm">
+                                    <label for="mail" class="form-label">Mail</label>
+                                    <input id="mail" type="email" class="form-control"
+                                           th:field="*{employee.mail}">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card" th:if="${employeeForm.employee.id == null}">
+                        <div class="card-body">
+                            <h3 class="pt-2">Anstellung</h3>
+
+                            <div class="row pt-2">
+                                <div class="col-sm">
+                                    <label for="startDate" class="form-label">Start-Datum</label>
+                                    <input id="startDate" type="date" class="form-control"
+                                           th:field="${employeeForm.startDate}">
+
+                                </div>
+                                <div class="col-sm">
+                                    <label for="department" class="form-label">Abteilung</label>
+                                    <select id="department" class="form-select" th:field="${employeeForm.departmentId}">
+                                        <option th:each="option: ${departments}" th:value="${option.id}"
+                                                th:text="${option.name}"></option>
+                                    </select>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="card" th:if="${employeeForm.employee.id != null}">
+                        <div class="card-body">
+                            <div class="d-flex flex-row justify-content-between">
+                                <h3 class="pt-2">Anstellungen</h3>
+                                <a th:if="*{employee.id != null}" th:href="@{/{id}/addEmployment(id=*{employee.id})}" class="btn btn-info m-2"
+                                ><i
+                                        class="bi bi-plus"></i>Anstellung hinzufügen
+                                </a>
+                            </div>
+                            <table class="table table-sm">
+                                <thead>
+                                <tr>
+                                    <th>
+                                        Startdatum
+                                    </th>
+
+                                    <th>
+                                        Enddatum
+                                    </th>
+
+                                    <th>
+                                        Abteilung
+                                    </th>
+                                    <th></th>
+                                    <th></th>
+
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:id="'row' + employment"
+                                    th:each="employment :${employeeForm.employee.employments}">
+
+                                    <td th:text="${#temporals.format(employment.startDate, 'dd.MM.yyyy')}"></td>
+                                    <td th:text="${#temporals.format(employment.endDate, 'dd.MM.yyyy')}"></td>
+                                    <td th:text="${employment.department==null ? 'Keine Abteilung angegeben' : employment.department.name}"></td>
+                                    <td>
+                                        <a th:href="@{/{id}/{employmentId}/editEmployment(id=*{employee.id},employmentId=${employment.id})}"
+                                           class="btn btn-info btn-sm"><i class="bi bi-eye-fill"></i></a>
+                                    </td>
+                                    <td>
+                                        <a th:href="@{/{id}/{employmentId}/deleteEmployment(id=*{employee.id},employmentId=${employment.id})}"
+                                           class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></a>
+                                    </td>
+
+                                </tr>
+                                </tbody>
+
+                            </table>
+
+                        </div>
+                    </div>
+                    <div class="card" th:if="${employeeForm.employee.id != null}">
+                        <div class="card-body">
+                            <div class="d-flex flex-row justify-content-between">
+                                <h3 class="pt-2">Fähigkeiten</h3>
+                                <a th:if="*{employee.id != null}" class="btn btn-info m-2"
+                                ><i
+                                        class="bi bi-plus"></i>Fähigkeit hinzufügen
+                                </a>
+                            </div>
+
+                            <table class="table table-sm" th:if="${employeeForm.employee.capabilities.size()>0}">
+                                <thead>
+                                <tr>
+                                    <th>
+                                        Name
+                                    </th>
+
+                                    <th>
+                                        Wert
+                                    </th>
+
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:id="'row' + capability"
+                                    th:each="capability :${employeeForm.employee.capabilities}">
+                                    <td th:text="${capability.capabilityType}"></td>
+                                    <td th:text="${capability.weight}"></td>
+
+
+                                </tr>
+                                </tbody>
+
+                            </table>
+                            <p th:unless="${employeeForm.employee.capabilities.size()>0}">Keine Fähigkeiten bekannt</p>
+
+                        </div>
+                    </div>
+                    <div class="card" th:if="${employeeForm.employee.id != null}">
+                        <div class="card-body">
+                            <div class="d-flex flex-row justify-content-between">
+                                <h3 class="pt-2">Stundenzettel</h3>
+
+                            </div>
+
+                            <table class="table table-sm" th:if="${employeeForm.employee.timesheets.size()>0}">
+                                <thead>
+                                <tr>
+                                    <th>
+                                        Name
+                                    </th>
+
+                                    <th>
+                                        Wert
+                                    </th>
+
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:id="'row' + timesheet"
+                                    th:each="timesheet :${employeeForm.employee.timesheets[0]}">
+                                    <td th:text="${#temporals.format(timesheet.startTime, 'dd.MM.yyyy HH:mm')}"></td>
+                                    <td th:text="${#temporals.format(timesheet.endTime, 'dd.MM.yyyy HH:mm')}"></td>
+
+                                </tr>
+                                </tbody>
+
+                            </table>
+                            <p th:unless="${employeeForm.employee.timesheets.size()>0}">Keine Stempelungen bekannt</p>
+                            <div>
+                                <a th:href="@{/timesheet/{id}(id=*{employee.id})}"
+                                   class="btn btn-info btn-sm"><i class="bi bi-eye"></i>Alle Stempelungen anzeigen</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--Buttons-->
+            <div class="row pt-2">
+                <div class="row pt-2">
+                    <div class="col-sm-9">
+                        <button type="submit" name="cancel" class="btn btn-warning"
+                                th:formaction="@{/cancel}"><i class="bi bi-x-circle"></i>Abbrechen
+                        </button>
+                    </div>
+                    <div class="col-sm-3">
+                        <a th:if="*{employee.id != null}" class="btn btn-danger"
+                           th:href="@{/deleteEmployee(contactId=*{employee.id})}"><i
+                                class="bi bi-trash"></i>Mitarbeiter löschen
+                        </a>
+
+
+                        <button type="submit" name="save" class="btn btn-success">
+                            <i class="bi bi-check-circle"></i>Mitarbeiter speichern
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </section>
+</main><!-- End #main -->
+
+<!-- ======= Footer ======= -->
+<footer id="footer" class="footer">
+    <div class="copyright">
+        &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
+    </div>
+    <div class="credits">
+        <!-- All the links in the footer should remain intact. -->
+        <!-- You can delete the links only if you purchased the pro version. -->
+        <!-- Licensing information: https://bootstrapmade.com/license/ -->
+        <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
+        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+    </div>
+</footer><!-- End Footer -->
+
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+        class="bi bi-arrow-up-short"></i></a>
+
+<!-- Vendor JS Files -->
+<script th:ref="@{/styles/vendor/apexcharts/apexcharts.min.js}"></script>
+<script th:ref="@{/styles/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<script th:ref="@{/styles/vendor/chart.js/chart.umd.js}"></script>
+<script th:ref="@{/styles/vendor/echarts/echarts.min.js}"></script>
+<script th:ref="@{/styles/vendor/quill/quill.min.js}"></script>
+<script th:ref="@{/styles/vendor/simple-datatables/simple-datatables.js}"></script>
+<script th:ref="@{/styles/vendor/tinymce/tinymce.min.js}"></script>
+<script th:ref="@{/styles/vendor/php-email-form/validate.js}"></script>
+
+<!-- Template Main JS File -->
+<script th:ref="@{/styles/js/main.js}"></script>
+
+</body>
+
+</html>

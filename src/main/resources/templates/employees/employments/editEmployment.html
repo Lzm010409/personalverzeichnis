@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title th:text="${title}"></title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+    <!-- Favicons -->
+    <link th:href="@{/styles/img/favicon.png}" rel="icon">
+    <link th:href="@{/styles/img/apple-touch-icon.png}" rel="apple-touch-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+          rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link th:href="@{/styles/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/styles/vendor/bootstrap-icons/bootstrap-icons.css}" rel="stylesheet">
+    <link th:href="@{/styles/vendor/boxicons/css/boxicons.min.css}" rel="stylesheet">
+    <link th:href="@{/styles/vendor/quill/quill.snow.css}" rel="stylesheet">
+    <link th:href="@{/styles/vendor/quill/quill.bubble.css}" rel="stylesheet">
+    <link th:href="@{/styles/vendor/remixicon/remixicon.css}" rel="stylesheet">
+    <link th:href="@{/styles/vendor/simple-datatables/style.css}" rel="stylesheet">
+
+    <!-- Template Main CSS File -->
+    <link th:href="@{/styles/css/style.css}" rel="stylesheet">
+
+    <!-- =======================================================
+    * Template Name: NiceAdmin
+    * Updated: Mar 09 2023 with Bootstrap v5.2.3
+    * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
+    * Author: BootstrapMade.com
+    * License: https://bootstrapmade.com/license/
+    ======================================================== -->
+</head>
+
+<body>
+
+<!-- ======= Header ======= -->
+<header th:replace="~{fragments/header :: header}">
+</header><!-- End Header -->
+
+<!-- ======= Sidebar ======= -->
+<aside th:replace="~{fragments/asideMenu :: sidebar}"></aside>
+
+<main id="main" class="main">
+    <div th:replace="~{fragments/alert :: alert(success,${success})}"></div>
+    <div th:replace="~{fragments/alert :: alert(danger,${danger})}"></div>
+    <div th:replace="~{fragments/alert :: alert(warning,${warning})}"></div>
+    <div class="pagetitle">
+        <h1 th:text="${employmentForm.employment.id} != null ? 'Anstellung vom '+ ${employmentForm.employment.startDate} : 'Neue Anstellung anlegen'"></h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a th:href="@{/}">Mitarbeiter</a></li>
+                <li class="breadcrumb-item" th:text="${employeeId}"><a th:href="@{/{id}(id=${employeeId})}"></a></li>
+                <li th:if="${employmentForm.employment.id !=null}" class="breadcrumb-item active"
+                    th:text="'Anstellung in: ' + ${employmentForm.employment.department} +' vom '+ ${employmentForm.employment.startDate}">
+                    <a
+                            th:href="@{/{employeeId}/editEmployment(employeeId=${employeeId})}"></a></li>
+                <li th:if="${employmentForm.employment.id ==null}" class="breadcrumb-item active"
+                >
+                    <a
+                            th:href="@{/{employeeId}(employeeId=${employeeId})/addEmployment}">Neue Anstellung</a></li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+    <section class="section">
+
+        <form th:object="${employmentForm.employment}" action="#" th:action="@{/{id}/saveEmployment(id=${employeeId})}" method="POST"
+              class="row g-3">
+            <div class="row pt-2">
+                <div class="col-md">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="pt-2">Anstellung</h3>
+                            <!--<input type="hidden" th:field="*{personType}">-->
+                            <input id="contactId" type="hidden" th:field="*{id}">
+                            <input type="hidden" th:field="*{createDate}">
+                            <input type="hidden" th:field="*{updateDate}">
+                            <input type="hidden" th:field="*{version}">
+
+
+                            <div class="row pt-2">
+                                <div class="col-sm">
+                                    <label for="anredeK" class="form-label">Abteilung</label>
+                                    <select id="anredeK" class="form-select" th:field="${employmentForm.departmentId}">
+                                        <option th:each="option: ${departments}" th:value="${option.id}"
+                                                th:text="${option.name}"></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row pt-2">
+                                <div class="col-sm">
+                                    <label for="startDate" class="form-label">Start-Datum</label>
+                                    <input id="startDate" type="date" class="form-control"
+                                           th:field="*{startDate}">
+
+                                </div>
+                                <div class="col-sm">
+                                    <label for="endDate" class="form-label">End-Datum</label>
+                                    <input id="endDate" type="date" class="form-control"
+                                           th:field="*{endDate}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!--Buttons-->
+            <div class="row pt-2">
+                <div class="row pt-2">
+                    <div class="col-sm-9">
+                        <a class="btn btn-warning"
+                           th:href="@{/{id}/cancel(id=${employeeId})}"><i class="bi bi-x-circle"></i>Abbrechen
+                        </a>
+                    </div>
+                    <div class="col-sm-3">
+                        <a th:if="*{id != null}" class="btn btn-danger"
+                           th:href="@{/{id}/{employmentId}/deleteEmployment(id=${employeeId},employmentId=*{id})}"><i
+                                class="bi bi-trash"></i>Anstellung löschen
+                        </a>
+
+
+                        <button type="submit" name="save" class="btn btn-success">
+                            <i class="bi bi-check-circle"></i>Anstellung speichern
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </section>
+</main><!-- End #main -->
+
+<!-- ======= Footer ======= -->
+<footer id="footer" class="footer">
+    <div class="copyright">
+        &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
+    </div>
+    <div class="credits">
+        <!-- All the links in the footer should remain intact. -->
+        <!-- You can delete the links only if you purchased the pro version. -->
+        <!-- Licensing information: https://bootstrapmade.com/license/ -->
+        <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
+        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+    </div>
+</footer><!-- End Footer -->
+
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+        class="bi bi-arrow-up-short"></i></a>
+
+<!-- Vendor JS Files -->
+<script th:ref="@{/styles/vendor/apexcharts/apexcharts.min.js}"></script>
+<script th:ref="@{/styles/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<script th:ref="@{/styles/vendor/chart.js/chart.umd.js}"></script>
+<script th:ref="@{/styles/vendor/echarts/echarts.min.js}"></script>
+<script th:ref="@{/styles/vendor/quill/quill.min.js}"></script>
+<script th:ref="@{/styles/vendor/simple-datatables/simple-datatables.js}"></script>
+<script th:ref="@{/styles/vendor/tinymce/tinymce.min.js}"></script>
+<script th:ref="@{/styles/vendor/php-email-form/validate.js}"></script>
+
+<!-- Template Main JS File -->
+<script th:ref="@{/styles/js/main.js}"></script>
+
+</body>
+
+</html>

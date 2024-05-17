@@ -11,28 +11,39 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
-@Table(name="employments")
+@Table(name = "employments")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Employment extends AbstractEntity{
-	
-	@Column(name = "start_date")
-	private LocalDate startDate;
-	
-	@Column(name = "end_date")
-	private LocalDate endDate; 
-	
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "employee",nullable = false)
-	private Employee employee; 
-	
-	
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "department",nullable = false)
-	private Department department;
+public class Employment extends AbstractEntity {
+
+    @Column(name = "start_date")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate startDate;
+
+    @Column(name = "end_date")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate endDate;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "employee")
+    private Employee employee;
 
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "department")
+    private Department department;
+
+    @Override
+    public String toString() {
+        return "Employment{" +
+                "startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", employee=" + employee.getName() +
+                ", department=" + department == null ? null : department.getName() +
+                '}';
+    }
 }

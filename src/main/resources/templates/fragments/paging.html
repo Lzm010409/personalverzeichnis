@@ -1,0 +1,5 @@
+<a th:fragment="paging(page,pageNum, label, tooltip, pageSize)" class="page-link"
+   th:href="@{'/'+${page}+'?' + 'pageNo=' + ${pageNum} + '&pageSize=' + ${pageSize}}"
+   th:title="${tooltip}" rel="tooltip">
+    [[${label}]]
+</a>

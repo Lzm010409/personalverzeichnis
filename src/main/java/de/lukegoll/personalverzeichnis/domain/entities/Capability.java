@@ -25,7 +25,7 @@ public class Capability extends AbstractEntity{
 	private long weight;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "employee",nullable = false)
+	@JoinColumn(name = "employee")
 	private Employee employee;
 
 }
