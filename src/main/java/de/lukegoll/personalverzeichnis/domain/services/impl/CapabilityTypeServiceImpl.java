@@ -15,82 +15,100 @@ import de.lukegoll.personalverzeichnis.domain.services.CapabilityTypeService;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CapabilityTypeServiceImpl implements CapabilityTypeService{
-
-	
-	private final CapabilityTypeRepository capabilityTypeRepository;
-	
-	
-	@Autowired
-	public CapabilityTypeServiceImpl(CapabilityTypeRepository capabilityTypeRepository) {
-		this.capabilityTypeRepository = capabilityTypeRepository;
-	}
+public class CapabilityTypeServiceImpl implements CapabilityTypeService {
 
 
-	@Override
-	public CapabilityType save(CapabilityType entity) {
-		try {
-			return capabilityTypeRepository.save(entity);
-		}catch (Exception e) {
-			throw new CapabilityTypeServiceException("Es ist ein Fehler bei der Speicherung der CapabilityType aufgetreten..." +e.getMessage(),e);
-		}
-	}
+    private final CapabilityTypeRepository capabilityTypeRepository;
 
 
-	@Override
-	public List<CapabilityType> findAll() {
-		try {
-			return capabilityTypeRepository.findAll();
-		}catch (Exception e) {
-			throw new CapabilityTypeServiceException("Es ist ein Fehler beim Abrufen der Capabilities aufgetreten..." +e.getMessage(),e);
-		}
-	}
+    @Autowired
+    public CapabilityTypeServiceImpl(CapabilityTypeRepository capabilityTypeRepository) {
+        this.capabilityTypeRepository = capabilityTypeRepository;
+    }
 
 
-	@Override
-	public Page<CapabilityType> findPaged(Pageable pageable) {
-		try {
-			return capabilityTypeRepository.findAllByOrderByCreateDateDesc(pageable);
-		}catch (Exception e) {
-			throw new CapabilityTypeServiceException("Es ist ein Fehler beim Abrufen der Capabilities aufgetreten..." +e.getMessage(),e);
-		}
-	}
+    @Override
+    public CapabilityType save(CapabilityType entity) {
+        try {
+            return capabilityTypeRepository.save(entity);
+        } catch (Exception e) {
+            throw new CapabilityTypeServiceException("Es ist ein Fehler bei der Speicherung der CapabilityType aufgetreten..." + e.getMessage(), e);
+        }
+    }
 
 
-	@Override
-	public Optional<CapabilityType> findById(UUID id) {
-		try {
-			return capabilityTypeRepository.findById(id);
-		}catch (Exception e) {
-			throw new CapabilityTypeServiceException("Es ist ein Fehler beim Abrufen der CapabilityType aufgetreten..." +e.getMessage(),e);
-		}
-	}
+    @Override
+    public List<CapabilityType> findAll() {
+        try {
+            return capabilityTypeRepository.findAll();
+        } catch (Exception e) {
+            throw new CapabilityTypeServiceException("Es ist ein Fehler beim Abrufen der Capabilities aufgetreten..." + e.getMessage(), e);
+        }
+    }
 
 
-	@Override
-	public boolean deleteById(UUID id) {
-		try {
-			capabilityTypeRepository.deleteById(id);
-			 return true; 
-		}catch (Exception e) {
-			throw new CapabilityTypeServiceException("Es ist ein Fehler beim Abrufen der CapabilityType aufgetreten..." +e.getMessage(),e);
-		}
-		
-	}
+    @Override
+    public Page<CapabilityType> findPaged(Pageable pageable) {
+        try {
+            return capabilityTypeRepository.findAllByOrderByCreateDateDesc(pageable);
+        } catch (Exception e) {
+            throw new CapabilityTypeServiceException("Es ist ein Fehler beim Abrufen der Capabilities aufgetreten..." + e.getMessage(), e);
+        }
+    }
 
 
-	@Override
-	public boolean deleteAll() {
-		try {
-			capabilityTypeRepository.deleteAll();
-			 return true; 
-		}catch (Exception e) {
-			throw new CapabilityTypeServiceException("Es ist ein Fehler beim Abrufen der Capabilities aufgetreten..." +e.getMessage(),e);
-		}
-	}
+    @Override
+    public Optional<CapabilityType> findById(UUID id) {
+        try {
+            return capabilityTypeRepository.findById(id);
+        } catch (Exception e) {
+            throw new CapabilityTypeServiceException("Es ist ein Fehler beim Abrufen der CapabilityType aufgetreten..." + e.getMessage(), e);
+        }
+    }
 
 
-	
-	
+    @Override
+    public boolean deleteById(UUID id) {
+        try {
+            capabilityTypeRepository.deleteById(id);
+            return true;
+        } catch (Exception e) {
+            throw new CapabilityTypeServiceException("Es ist ein Fehler beim Abrufen der CapabilityType aufgetreten..." + e.getMessage(), e);
+        }
 
+    }
+
+
+    @Override
+    public boolean deleteAll() {
+        try {
+            capabilityTypeRepository.deleteAll();
+            return true;
+        } catch (Exception e) {
+            throw new CapabilityTypeServiceException("Es ist ein Fehler beim Abrufen der Capabilities aufgetreten..." + e.getMessage(), e);
+        }
+    }
+
+
+    @Override
+    public Page<CapabilityType> findPagedByKeyword(String keyword, Pageable pageable) {
+        try {
+            return capabilityTypeRepository.findPaginatedByKeyword(keyword, pageable);
+        } catch (Exception e) {
+            throw new CapabilityTypeServiceException("Es ist ein Fehler beim Abrufen der Capabilities aufgetreten..." + e.getMessage(), e);
+        }
+    }
+
+    @Override
+    public CapabilityType findByName(String name) {
+        try {
+            Optional<CapabilityType> capabilityTypeOptional = capabilityTypeRepository.findByName(name);
+            if (capabilityTypeOptional.isEmpty()) {
+                throw new CapabilityTypeServiceException("Capability wurde nicht gefunden...");
+            }
+            return capabilityTypeOptional.get();
+        } catch (Exception e) {
+            throw new CapabilityTypeServiceException("Es ist ein Fehler beim Abrufen der Capabilities aufgetreten..." + e.getMessage(), e);
+        }
+    }
 }

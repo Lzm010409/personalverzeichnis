@@ -62,6 +62,15 @@ public class Employee extends AbstractEntity {
         employment.setEmployee(this);
     }
 
+    public void removeCapability(Capability capability) {
+        this.capabilities.remove(capability);
+    }
+
+    public void attachCapability(Capability capability) {
+        this.capabilities.add(capability);
+        capability.setEmployee(this);
+    }
+
     public void removeTimesheet(Timesheet timesheet) {
         this.timesheets.remove(timesheet);
     }

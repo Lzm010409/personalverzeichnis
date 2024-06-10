@@ -68,7 +68,7 @@
                             <h5 class="card-title">Übersicht der Abteilungen</h5>
                         </div>
                         <div class="col-sm-8 pt-3">
-                            <form th:replace="~{fragments/searchform :: searchform(${keyword}, department)}"></form>
+                            <form th:replace="~{fragments/searchform :: searchform('Suchen nach...',${keyword}, department)}"></form>
                         </div>
                         <div class="col-sm-2 pt-4">
                             <a th:href="@{/department/addDepartment}"

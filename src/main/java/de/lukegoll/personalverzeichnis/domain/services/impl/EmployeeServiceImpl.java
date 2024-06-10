@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import de.lukegoll.personalverzeichnis.domain.specification.impl.EmployeeSpecificationHelper;
+import de.lukegoll.personalverzeichnis.web.dto.EmployeeFilterDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -57,9 +59,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Page<Employee> findPagedByKeyword(String keyword, Pageable pageable) {
+    public Page<Employee> findFiltered(EmployeeFilterDTO employeeFilterDTO, Pageable pageable) {
         try {
-            return employeeRepository.findPaginatedByKeyword(keyword, pageable);
+            return employeeRepository.findAll(new EmployeeSpecificationHelper().createSpecifiaction(employeeFilterDTO), pageable);
         } catch (Exception e) {
             throw new EmployeeServiceException("Es ist ein Fehler beim Abrufen der Capabilities aufgetreten..." + e.getMessage(), e);
         }

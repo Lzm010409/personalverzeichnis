@@ -1,11 +1,14 @@
-<form th:fragment="searchform(placeholder,keyword, link)" th:action="@{'/'+${link}}" id="searchForm">
+<form th:fragment="searchformCapability(capability,capabilities, keyword, link)" th:action="@{'/'+${link}}" id="searchForm">
     <div class="row d-flex">
         <div class="col-sm-6">
             <div class="search">
+                <select id="capabilityName" class="form-select" th:value="${capabilityType}">
+                    <option th:each="option: ${capabilities}"
+                            th:text="${option.name}"></option>
+                </select>
                 <input id="keyword" type="search" name="keyword" th:value="${keyword}"
-                       required
                        class="form-control"
-                       th:placeholder="${placeholder != null ? placeholder: 'Suchen nach...'}">
+                       placeholder="Suchen nach...">
             </div>
         </div>
         <div class="col-sm-2 mt-1">

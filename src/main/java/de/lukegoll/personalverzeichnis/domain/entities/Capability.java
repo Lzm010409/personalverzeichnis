@@ -7,18 +7,18 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Table(name="capabilities")
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Capability extends AbstractEntity{
-	
-	@OneToOne(mappedBy = "capability")
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "capabilitytype")
 	private CapabilityType capabilityType; 
 	
 	@Column(name = "weight")

@@ -220,7 +220,7 @@
                         <div class="card-body">
                             <div class="d-flex flex-row justify-content-between">
                                 <h3 class="pt-2">Fähigkeiten</h3>
-                                <a th:if="*{employee.id != null}" class="btn btn-info m-2"
+                                <a th:if="*{employee.id != null}" class="btn btn-info m-2" th:href="@{/{id}/addCapability(id=*{employee.id})}"
                                 ><i
                                         class="bi bi-plus"></i>Fähigkeit hinzufügen
                                 </a>
@@ -236,15 +236,24 @@
                                     <th>
                                         Wert
                                     </th>
+                                    <th></th>
+                                    <th></th>
 
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr th:id="'row' + capability"
                                     th:each="capability :${employeeForm.employee.capabilities}">
-                                    <td th:text="${capability.capabilityType}"></td>
+                                    <td th:text="${capability.capabilityType.name}"></td>
                                     <td th:text="${capability.weight}"></td>
-
+                                    <td>
+                                        <a th:href="@{/{id}/{capabilityId}/editCapability(id=*{employee.id},capabilityId=${capability.id})}"
+                                           class="btn btn-info btn-sm"><i class="bi bi-eye-fill"></i></a>
+                                    </td>
+                                    <td>
+                                        <a th:href="@{/{id}/{capabilityId}/deleteCapability(id=*{employee.id},capabilityId=${capability.id})}"
+                                           class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></a>
+                                    </td>
 
                                 </tr>
                                 </tbody>
@@ -265,11 +274,11 @@
                                 <thead>
                                 <tr>
                                     <th>
-                                        Name
+                                        Letzte Einstempelung
                                     </th>
 
                                     <th>
-                                        Wert
+                                        Letzte Ausstempelung
                                     </th>
 
                                 </tr>

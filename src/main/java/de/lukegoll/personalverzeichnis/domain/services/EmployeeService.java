@@ -2,6 +2,7 @@ package de.lukegoll.personalverzeichnis.domain.services;
 
 
 
+import de.lukegoll.personalverzeichnis.web.dto.EmployeeFilterDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -14,7 +15,7 @@ import java.util.List;
 public interface EmployeeService extends EntityService<Employee> {
 
 
-    Page<Employee> findPagedByKeyword(String keyword, Pageable pageable);
+    Page<Employee> findFiltered(EmployeeFilterDTO employeeFilterDTO, Pageable pageable);
 
     List<Employee> findAllWhichArentStampedIn();
 }

@@ -7,8 +7,10 @@ import de.lukegoll.personalverzeichnis.domain.entities.Department;
 import de.lukegoll.personalverzeichnis.domain.entities.Employment;
 import de.lukegoll.personalverzeichnis.domain.entities.Salutation;
 import de.lukegoll.personalverzeichnis.domain.exceptions.EmployeeServiceException;
+import de.lukegoll.personalverzeichnis.domain.services.CapabilityTypeService;
 import de.lukegoll.personalverzeichnis.domain.services.DepartmentService;
 import de.lukegoll.personalverzeichnis.domain.services.EmployeeService;
+import de.lukegoll.personalverzeichnis.web.dto.EmployeeFilterDTO;
 import de.lukegoll.personalverzeichnis.web.form.employee.EmployeeForm;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,19 +32,23 @@ public class EmployeeController {
 
     private final DepartmentService departmentService;
 
+    private final CapabilityTypeService capabilityTypeService;
+
     @Autowired
-    public EmployeeController(EmployeeService employeeService, DepartmentService departmentService) {
+    public EmployeeController(EmployeeService employeeService, DepartmentService departmentService, CapabilityTypeService capabilityTypeService) {
         this.employeeService = employeeService;
         this.departmentService = departmentService;
+        this.capabilityTypeService = capabilityTypeService;
     }
 
     @GetMapping()
-    private String getEmployees(Model model, @RequestParam(required = false) String keyword, @RequestParam(defaultValue = "1", name = "pageNo") int pageNo, @RequestParam(defaultValue = "10", name = "pageSize") int pageSize
+    private String getEmployees(Model model, @RequestParam(required = false) String keyword,
+                                @RequestParam(required = false) String capabilityType, @RequestParam(defaultValue = "1", name = "pageNo") int pageNo, @RequestParam(defaultValue = "10", name = "pageSize") int pageSize
             , @RequestParam(required = false, name = "caseId") Long caseId) {
         try {
             Page<Employee> page;
             if (Objects.nonNull(keyword) && !keyword.isEmpty()) {
-                page = employeeService.findPagedByKeyword(keyword, PageRequest.of(pageNo - 1, pageSize));
+                page = employeeService.findFiltered(new EmployeeFilterDTO(keyword), PageRequest.of(pageNo - 1, pageSize));
                 model.addAttribute("employees", page.getContent());
             } else {
                 page = employeeService.findPaged(PageRequest.of(pageNo - 1, pageSize));

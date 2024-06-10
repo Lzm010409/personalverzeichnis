@@ -1,29 +1,33 @@
 package de.lukegoll.personalverzeichnis.domain.entities;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-@Table(name="capability_types")
-@Data
+@Table(name = "capability_types")
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CapabilityType extends AbstractEntity{
-	
-	@Column(name = "capability_type")
-	private String name; 
-	
-	
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "capability", referencedColumnName = "id")
-	private Capability capability;
+public class CapabilityType extends AbstractEntity {
+
+    @Column(name = "capability_type")
+    private String name;
+
+
+    @OneToMany(mappedBy = "capabilityType", fetch = FetchType.EAGER, targetEntity = Capability.class)
+    private List<Capability> capabilities = new ArrayList<>();
+
+    public void removeCapability(Capability capability) {
+        this.capabilities.remove(capability);
+    }
+
+    public void attachCapability(Capability capability) {
+        this.capabilities.add(capability);
+        capability.setCapabilityType(this);
+    }
 
 }
