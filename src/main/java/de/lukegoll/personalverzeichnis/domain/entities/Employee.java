@@ -54,7 +54,7 @@ public class Employee extends AbstractEntity {
     private List<Timesheet> timesheets = new ArrayList<>();
 
     @OneToMany(mappedBy = "employee", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<Document> documentList = new LinkedList<>();
+    private List<Document> documentList = new ArrayList<>();
 
     public void removeEmployment(Employment employment) {
         this.employments.remove(employment);

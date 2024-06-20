@@ -18,6 +18,7 @@ import de.lukegoll.personalverzeichnis.domain.services.EmployeeService;
 import de.lukegoll.personalverzeichnis.web.dto.EmployeeFilterDTO;
 import de.lukegoll.personalverzeichnis.web.form.employee.EmployeeForm;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

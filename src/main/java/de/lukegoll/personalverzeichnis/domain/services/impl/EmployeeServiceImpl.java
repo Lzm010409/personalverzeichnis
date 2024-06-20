@@ -49,7 +49,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
     }
 
-
+    @Transactional
     @Override
     public Page<Employee> findPaged(Pageable pageable) {
         try {
@@ -59,6 +59,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
     }
 
+    @Transactional
     @Override
     public Page<Employee> findFiltered(EmployeeFilterDTO employeeFilterDTO, Pageable pageable) {
         try {

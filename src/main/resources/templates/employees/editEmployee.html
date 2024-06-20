@@ -352,7 +352,7 @@
                     </div>
                     <div class="col-sm-3">
                         <a th:if="*{employee.id != null}" class="btn btn-danger"
-                           th:href="@{/deleteEmployee(contactId=*{employee.id})}"><i
+                           th:href="@{/{id}/deleteEmployee(id=*{employee.id})}"><i
                                 class="bi bi-trash"></i>Mitarbeiter löschen
                         </a>
 
