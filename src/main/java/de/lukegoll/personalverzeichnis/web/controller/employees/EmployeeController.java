@@ -79,13 +79,15 @@ public class EmployeeController {
     @GetMapping("/{id}")
     public String editEmployee(@PathVariable("id") UUID employeeId, Model model, RedirectAttributes redirectAttributes) {
         try {
-            EmployeeForm employeeForm = new EmployeeForm();
             Optional<Employee> employee = employeeService.findById(employeeId);
             if (employee.isEmpty()) {
                 redirectAttributes.addFlashAttribute("danger", "Mitarbeiter wurde nicht gefunden...");
                 return "redirect:/";
             }
-            employeeForm.setEmployee(employee.get());
+            EmployeeForm employeeForm = EmployeeForm.
+                    builder().
+                    employee(employee.get())
+                    .build();
             model.addAttribute("employeeForm", employeeForm);
             model.addAttribute("salutation", Salutation.values());
             return "employees/editEmployee";
@@ -100,9 +102,10 @@ public class EmployeeController {
     public String editEmployee(Model model) {
         try {
             Employee employee = new Employee();
-            EmployeeForm employeeForm = new EmployeeForm();
-            employeeForm.setEmployee(employee);
-            employeeForm.setStartDate(LocalDate.now());
+            EmployeeForm employeeForm = EmployeeForm.builder()
+                    .employee(employee)
+                    .startDate(LocalDate.now())
+                    .build();
             model.addAttribute("employeeForm", employeeForm);
             model.addAttribute("salutation", Salutation.values());
             model.addAttribute("departments", departmentService.findAll());
