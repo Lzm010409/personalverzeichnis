@@ -1,6 +1,7 @@
 package de.lukegoll.personalverzeichnis.domain.entities;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import jakarta.persistence.*;
@@ -52,6 +53,8 @@ public class Employee extends AbstractEntity {
     @OneToMany(mappedBy = "employee", fetch = FetchType.EAGER, targetEntity = Timesheet.class, cascade = CascadeType.ALL)
     private List<Timesheet> timesheets = new ArrayList<>();
 
+    @OneToMany(mappedBy = "employee", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Document> documentList = new LinkedList<>();
 
     public void removeEmployment(Employment employment) {
         this.employments.remove(employment);
@@ -78,6 +81,15 @@ public class Employee extends AbstractEntity {
     public void attachTimesheet(Timesheet timesheet) {
         this.timesheets.add(timesheet);
         timesheet.setEmployee(this);
+    }
+
+    public void removeDocument(Document document) {
+        this.documentList.remove(document);
+    }
+
+    public void attachDocument(Document document) {
+        this.documentList.add(document);
+        document.setEmployee(this);
     }
 
 }

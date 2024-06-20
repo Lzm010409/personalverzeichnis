@@ -2,6 +2,7 @@ package de.lukegoll.personalverzeichnis.domain.repos;
 
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import de.lukegoll.personalverzeichnis.domain.entities.Capability;
@@ -41,6 +42,11 @@ public interface EmployeeRepository extends JpaRepository<Employee, UUID>, JpaSp
     List<Employee> findAllWhichArentStampedIn();
 
     Page<Employee> findAllByOrderByCreateDateDesc(Pageable pageable);
+
+    @Query("""
+                select e from Employee e join fetch e.documentList where e.id = :id
+            """)
+    Optional<Employee> fetchWithDocuments(@Param("id")UUID id);
 
 
 }

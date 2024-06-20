@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import de.lukegoll.personalverzeichnis.domain.specification.impl.EmployeeSpecificationHelper;
 import de.lukegoll.personalverzeichnis.web.dto.EmployeeFilterDTO;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -74,6 +75,17 @@ public class EmployeeServiceImpl implements EmployeeService {
             return employeeRepository.findAllWhichArentStampedIn();
         } catch (Exception e) {
             throw new EmployeeServiceException("Es ist ein Fehler beim Abrufen der Capabilities aufgetreten..." + e.getMessage(), e);
+        }
+    }
+
+    @Override
+    @Transactional
+    public Optional<Employee> fetchWithDocuments(UUID id) {
+        try {
+            return employeeRepository.fetchWithDocuments(id);
+        } catch (Exception e) {
+            throw new EmployeeServiceException("Es ist ein Fehler beim Abrufen der Employee aufgetreten..." + e.getMessage(), e);
+
         }
     }
 

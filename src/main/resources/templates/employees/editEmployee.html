@@ -169,7 +169,8 @@
                         <div class="card-body">
                             <div class="d-flex flex-row justify-content-between">
                                 <h3 class="pt-2">Anstellungen</h3>
-                                <a th:if="*{employee.id != null}" th:href="@{/{id}/addEmployment(id=*{employee.id})}" class="btn btn-info m-2"
+                                <a th:if="*{employee.id != null}" th:href="@{/{id}/addEmployment(id=*{employee.id})}"
+                                   class="btn btn-info m-2"
                                 ><i
                                         class="bi bi-plus"></i>Anstellung hinzufügen
                                 </a>
@@ -220,7 +221,8 @@
                         <div class="card-body">
                             <div class="d-flex flex-row justify-content-between">
                                 <h3 class="pt-2">Fähigkeiten</h3>
-                                <a th:if="*{employee.id != null}" class="btn btn-info m-2" th:href="@{/{id}/addCapability(id=*{employee.id})}"
+                                <a th:if="*{employee.id != null}" class="btn btn-info m-2"
+                                   th:href="@{/{id}/addCapability(id=*{employee.id})}"
                                 ><i
                                         class="bi bi-plus"></i>Fähigkeit hinzufügen
                                 </a>
@@ -300,15 +302,53 @@
                             </div>
                         </div>
                     </div>
+                    <div class="card" th:if="${employeeForm.employee.id != null}">
+                        <div class="card-body">
+                            <div class="d-flex flex-row justify-content-between">
+                                <h3 class="pt-2">Dokumente</h3>
+                                <a th:if="*{employee.id != null}"
+                                   th:href="@{/uploaddocuments(employeeid=*{employee.id})}"
+                                   class="btn btn-info m-2"
+                                ><i
+                                        class="bi bi-upload"></i>Dokumente hochladen
+                                </a>
+                            </div>
+
+                            <table class="table table-sm" th:if="${employeeForm.employee.documentList.size()>0}">
+                                <thead>
+                                <tr>
+                                    <th>
+                                        Name
+                                    </th>
+                                    <th></th>
+
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:id="'row' + documents"
+                                    th:each="documents :${employeeForm.employee.documentList}">
+                                    <td th:text="${documents.fileName}"></td>
+                                    <td><a th:href="@{/showfile(documentid=${documents.id})}" target="_blank"
+                                           class="btn btn-info btn-sm"><i class="bi bi-eye-fill"></i></a></td>
+                                    <td>
+                                        <a th:href="@{/deletefile(documentid=${documents.id},employeeid=*{employee.id})}"
+                                           class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></a>
+                                    </td>
+                                </tr>
+
+                                </tbody>
+
+                            </table>
+                            <p th:unless="${employeeForm.employee.documentList.size()>0}">Keine Dokumente vorhanden</p>
+                        </div>
+                    </div>
                 </div>
             </div>
             <!--Buttons-->
             <div class="row pt-2">
                 <div class="row pt-2">
                     <div class="col-sm-9">
-                        <button type="submit" name="cancel" class="btn btn-warning"
-                                th:formaction="@{/cancel}"><i class="bi bi-x-circle"></i>Abbrechen
-                        </button>
+
                     </div>
                     <div class="col-sm-3">
                         <a th:if="*{employee.id != null}" class="btn btn-danger"
