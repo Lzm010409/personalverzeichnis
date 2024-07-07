@@ -12,8 +12,8 @@ import org.springframework.data.jpa.domain.Specification;
 import java.time.LocalDate;
 
 /**
- * Einfache Implementation des {@linkplain SpecificationHelper} welches {@linkplain Specification}
- * für einen Lead aus einem LeadFilterDTO generiert
+ * Einfache Implementation des {@linkplain SpecificationHelper} welcher 
+ * es zulässt dynamisch nach Employees zu filtern
  */
 public class EmployeeSpecificationHelper implements SpecificationHelper<Employee, EmployeeFilterDTO> {
     @Override
