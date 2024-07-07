@@ -18,7 +18,8 @@ import java.time.LocalDate;
 public class EmployeeSpecificationHelper implements SpecificationHelper<Employee, EmployeeFilterDTO> {
     @Override
     public Specification<Employee> createSpecifiaction(EmployeeFilterDTO employeeFilterDTO) {
-        return createCapabilityFilter(employeeFilterDTO.getStringFilter());
+        return createCapabilityFilter(employeeFilterDTO.getStringFilter())
+                .or(createNameFilter(employeeFilterDTO.getStringFilter()));
     }
 
     public static Specification<Employee> createCapabilityFilter(String capabilityName) {
@@ -31,6 +32,18 @@ public class EmployeeSpecificationHelper implements SpecificationHelper<Employee
 
             // Build the query: where capabilityType.name = :capabilityTypeName
             return builder.equal(capabilityTypeJoin.get("name"), capabilityName);
+        };
+    }
+
+    public static Specification<Employee> createNameFilter(String nameFilter) {
+        return (root, query, builder) -> {
+            if (nameFilter == null || nameFilter.isEmpty()) {
+                return builder.conjunction();
+            }
+            return builder.or(
+                    builder.equal(builder.lower(root.get("name")), nameFilter.toLowerCase()),
+                    builder.equal(builder.lower(root.get("firstName")), nameFilter.toLowerCase()));
+
         };
     }
 

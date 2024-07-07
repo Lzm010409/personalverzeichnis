@@ -57,4 +57,11 @@ class TimesheetToWrapperMapperTest {
 
 
     }
+
+    @Test
+    void mapToWithNullValues() {
+        TimesheetToWrapperMapper timesheet = new TimesheetToWrapperMapper();
+        TimesheetWrapper timesheetWrapper = timesheet.mapTo(null);
+        assertNull(timesheetWrapper);
+    }
 }

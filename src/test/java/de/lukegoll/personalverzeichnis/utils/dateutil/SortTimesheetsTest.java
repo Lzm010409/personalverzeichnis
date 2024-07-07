@@ -4,6 +4,7 @@ import de.lukegoll.personalverzeichnis.domain.entities.Timesheet;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -33,5 +34,17 @@ class SortTimesheetsTest {
     void sortTimesheets() {
         List<List<Timesheet>> lists = SortTimesheets.sortTimesheets(timesheets);
         assertEquals(4, lists.size());
+    }
+
+    @Test
+    void sortTimesheetsWithNullValues() {
+        List<List<Timesheet>> lists = SortTimesheets.sortTimesheets(null);
+        assertNull(lists);
+    }
+
+    @Test
+    void sortTimesheetsWithEmptyValues() {
+        List<List<Timesheet>> lists = SortTimesheets.sortTimesheets(new ArrayList<>());
+        assertNull(lists);
     }
 }
