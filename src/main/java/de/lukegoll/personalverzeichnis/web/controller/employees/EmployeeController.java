@@ -98,6 +98,16 @@ public class EmployeeController {
         }
     }
 
+    @GetMapping("{id}/cancel")
+    public String cancel(@PathVariable("id") UUID employeeId, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("warning", "Bearbeitung abgebrochen...");
+        if (employeeId == null) {
+            return "redirect:/";
+        } else {
+            return "redirect:/" + employeeId;
+        }
+    }
+
     @GetMapping("/addEmployee")
     public String addEmployee(Model model) {
         try {

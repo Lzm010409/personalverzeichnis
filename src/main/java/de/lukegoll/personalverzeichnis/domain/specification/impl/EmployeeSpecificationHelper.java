@@ -12,7 +12,7 @@ import org.springframework.data.jpa.domain.Specification;
 import java.time.LocalDate;
 
 /**
- * Einfache Implementation des {@linkplain SpecificationHelper} welcher 
+ * Einfache Implementation des {@linkplain SpecificationHelper} welcher
  * es zulässt dynamisch nach Employees zu filtern
  */
 public class EmployeeSpecificationHelper implements SpecificationHelper<Employee, EmployeeFilterDTO> {
@@ -31,7 +31,8 @@ public class EmployeeSpecificationHelper implements SpecificationHelper<Employee
             Join<Capability, CapabilityType> capabilityTypeJoin = capabilityJoin.join("capabilityType");
 
             // Build the query: where capabilityType.name = :capabilityTypeName
-            return builder.equal(capabilityTypeJoin.get("name"), capabilityName);
+            return builder.like(
+                    builder.lower(capabilityTypeJoin.get("name")), "%" + capabilityName.toLowerCase() + "%");
         };
     }
 

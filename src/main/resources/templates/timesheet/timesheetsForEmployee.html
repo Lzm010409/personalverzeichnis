@@ -56,10 +56,11 @@
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a th:href="@{/}">Mitarbeiter</a></li>
                 <li class="breadcrumb-item"><a th:href="@{/{id}(id=${employeeId})}" th:text="${employeeId}"></a></li>
-                <li  class="breadcrumb-item active"
+                <li class="breadcrumb-item active"
                 >
                     <a
-                            th:href="@{/timesheet/{employeeId}(employeeId=${employeeId})}">Stundenzettel Übersicht</a></li>
+                            th:href="@{/timesheet/{employeeId}(employeeId=${employeeId})}">Stundenzettel Übersicht</a>
+                </li>
             </ol>
         </nav>
     </div>
@@ -74,22 +75,29 @@
                     </div>
                     <div class="card">
                         <div class="card-body">
-                           <div th:each="timesheetwrapper :${timesheetsWrapper}">
-                               <div  th:id="${timesheetwrapper.start}">
-                                   <div class="d-flex flex-row p-1 border-bottom border-secondary justify-content-start">
-                                       <div class="flex-fill" >
-                                           <h2 class="card-title" th:text="${#temporals.format(timesheetwrapper.start.toLocalDate(), 'dd.MM.yyyy')}"></h2>
-                                       </div>
-                                   </div>
-                                   <div class="d-flex flex-row p-2">
-                                       <div class="flex-fill">
-                                           <p class="card-text" th:text="'Gearbeitet von: '+${#temporals.format(timesheetwrapper.start, 'dd.MM.yyyy HH:mm') + ' - ' + #temporals.format(timesheetwrapper.end, 'dd.MM.yyyy HH:mm')}"></p>
-                                           <p class="card-text" th:text="'Gearbeitete Zeit: '+ ${timesheetwrapper.hours} + ' Stunden und ' + ${timesheetwrapper.minutes} + ' Minuten'"></p>
-                                       </div>
+                            <div th:each="timesheetwrapper :${timesheetsWrapper}">
+                                <div th:id="${timesheetwrapper.start}">
+                                    <div class="d-flex flex-row p-1 border-bottom border-secondary justify-content-start">
+                                        <div class="flex-fill">
+                                            <h2 class="card-title"
+                                                th:text="${#temporals.format(timesheetwrapper.start.toLocalDate(), 'dd.MM.yyyy')}"></h2>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex flex-row p-2">
+                                        <div class="flex-fill">
+                                            <p class="card-text"
+                                               th:text="'Gearbeitet von: '+${#temporals.format(timesheetwrapper.start, 'dd.MM.yyyy HH:mm') + ' - ' + #temporals.format(timesheetwrapper.end, 'dd.MM.yyyy HH:mm')}"></p>
+                                            <p class="card-text"
+                                               th:if="${timesheetwrapper.hours!=0 && timesheetwrapper.minutes!=0}"
+                                               th:text="'Gearbeitete Zeit: '+ ${timesheetwrapper.hours} + ' Stunden und ' + ${timesheetwrapper.minutes} + ' Minuten'"></p>
+                                            <p class="card-text"
+                                               th:unless="${timesheetwrapper.hours!=0 && timesheetwrapper.minutes!=0}"
+                                            >Konnte nicht berechnet werden</p>
+                                        </div>
 
-                                   </div>
-                               </div>
-                           </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 

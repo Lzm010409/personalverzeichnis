@@ -5,6 +5,7 @@ import de.lukegoll.personalverzeichnis.domain.exceptions.CapabilityTypeServiceEx
 import de.lukegoll.personalverzeichnis.domain.services.CapabilityTypeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
@@ -109,6 +110,10 @@ public class CapabilityTypeController {
         try {
             capabilityTypeService.deleteById(capabilityId);
             redirectAttributes.addFlashAttribute("success", "Fähigkeit gelöscht...");
+            return "redirect:/capabilitytype";
+        }catch (DataIntegrityViolationException e) {
+            log.error("Fähigkeit konnte nicht gelöscht werden, da noch Mitarbeiter mit dieser verknüpft sind...");
+            redirectAttributes.addFlashAttribute("danger", "Fähigkeit konnte nicht gelöscht werden, da noch Mitarbeiter mit dieser Fähigkeit exstieren.");
             return "redirect:/capabilitytype";
         } catch (CapabilityTypeServiceException e) {
             log.error("Fähigkeit konnte nicht gelöscht werden..." + capabilityId + e);

@@ -71,7 +71,8 @@
     </div><!-- End Page Title -->
     <section class="section">
 
-        <form th:object="${employmentForm.employment}" action="#" th:action="@{/{id}/saveEmployment(id=${employeeId})}" method="POST"
+        <form th:object="${employmentForm.employment}" action="#" th:action="@{/{id}/saveEmployment(id=${employeeId})}"
+              method="POST"
               class="row g-3">
             <div class="row pt-2">
                 <div class="col-md">
@@ -163,7 +164,53 @@
 <script th:ref="@{/styles/vendor/simple-datatables/simple-datatables.js}"></script>
 <script th:ref="@{/styles/vendor/tinymce/tinymce.min.js}"></script>
 <script th:ref="@{/styles/vendor/php-email-form/validate.js}"></script>
+<script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", (e) => {
+        e.preventDefault();
+        const changeMinEndDate = (startDate)=>{
+            let dateStart = new Date(startDate.value)
+            console.log(dateStart)
+            let day = dateStart.getDate() +1
+            let month = dateStart.getMonth() +1
+            let year = dateStart.getFullYear();
+            if (month < 10)
+                month = '0' + month.toString();
+            if (day < 10)
+                day = '0' + day.toString();
 
+            let newMinDate = year +'-'+month+'-'+day
+            console.log(newMinDate)
+            document.getElementById("endDate").setAttribute("min", newMinDate)
+        }
+        var dtToday = new Date();
+
+        var month = dtToday.getMonth() + 1;
+        var day = dtToday.getDate();
+        var year = dtToday.getFullYear();
+
+        if (month < 10)
+            month = '0' + month.toString();
+        if (day < 10)
+            day = '0' + day.toString();
+
+        var maxDate = year + '-' + month + '-' + day;
+        const startDate = document.getElementById("startDate");
+        startDate.setAttribute("min", maxDate);
+        changeMinEndDate(startDate)
+
+
+        startDate.addEventListener("input", () => {
+            if(startDate.value!=null){
+               changeMinEndDate(startDate)
+            }
+        })
+
+
+
+
+    })
+
+</script>
 <!-- Template Main JS File -->
 <script th:ref="@{/styles/js/main.js}"></script>
 

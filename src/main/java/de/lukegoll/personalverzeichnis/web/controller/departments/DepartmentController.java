@@ -11,6 +11,7 @@ import de.lukegoll.personalverzeichnis.domain.services.EmployeeService;
 import de.lukegoll.personalverzeichnis.web.form.employee.EmployeeForm;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
@@ -39,7 +40,7 @@ public class DepartmentController {
 
     @GetMapping()
     public String getDepartment(Model model, @RequestParam(required = false) String keyword, @RequestParam(defaultValue = "1", name = "pageNo") int pageNo, @RequestParam(defaultValue = "10", name = "pageSize") int pageSize,
-                                 RedirectAttributes redirectAttributes
+                                RedirectAttributes redirectAttributes
     ) {
         try {
             Page<Department> page;
@@ -117,6 +118,10 @@ public class DepartmentController {
         try {
             departmentService.deleteById(departmentId);
             redirectAttributes.addFlashAttribute("success", "Abteilung gelöscht...");
+            return "redirect:/department";
+        } catch (DataIntegrityViolationException e) {
+            log.error("Abteilung konnte nicht gelöscht werden, da noch Mitarbeiter mit dieser verknüpft sind...");
+            redirectAttributes.addFlashAttribute("danger", "Abteilung konnte nicht gelöscht werden, da noch Mitarbeiter mit dieser Abteilung exstieren.");
             return "redirect:/department";
         } catch (DepartmentServiceException e) {
             log.error("Abteilung konnte nicht gelöscht werden..." + departmentId + e);

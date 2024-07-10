@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -72,6 +73,8 @@ public class CapabilityTypeServiceImpl implements CapabilityTypeService {
         try {
             capabilityTypeRepository.deleteById(id);
             return true;
+        } catch (DataIntegrityViolationException e) {
+            throw e;
         } catch (Exception e) {
             throw new CapabilityTypeServiceException("Es ist ein Fehler beim Abrufen der CapabilityType aufgetreten..." + e.getMessage(), e);
         }
