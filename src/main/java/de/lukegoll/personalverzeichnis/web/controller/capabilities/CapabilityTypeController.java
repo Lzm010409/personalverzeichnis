@@ -30,7 +30,7 @@ public class CapabilityTypeController {
     }
 
     @GetMapping()
-    private String getCapabilities(Model model, @RequestParam(required = false) String keyword, @RequestParam(defaultValue = "1", name = "pageNo") int pageNo, @RequestParam(defaultValue = "10", name = "pageSize") int pageSize,
+    private String getCapabilityTypes(Model model, @RequestParam(required = false) String keyword, @RequestParam(defaultValue = "1", name = "pageNo") int pageNo, @RequestParam(defaultValue = "10", name = "pageSize") int pageSize,
                                  RedirectAttributes redirectAttributes
     ) {
         try {
@@ -58,7 +58,7 @@ public class CapabilityTypeController {
 
 
     @GetMapping("/{id}")
-    public String editCapability(@PathVariable("id") UUID capabilityId, Model model, RedirectAttributes redirectAttributes) {
+    public String editCapabilityType(@PathVariable("id") UUID capabilityId, Model model, RedirectAttributes redirectAttributes) {
         try {
             Optional<CapabilityType> capabilityTypeOptional = capabilityTypeService.findById(capabilityId);
             if (capabilityTypeOptional.isEmpty()) {
@@ -75,7 +75,7 @@ public class CapabilityTypeController {
     }
 
     @GetMapping("/addCapabilityType")
-    public String addCapability(Model model) {
+    public String addCapabilityType(Model model) {
         try {
             CapabilityType capabilityType = new CapabilityType();
             model.addAttribute("capabilitytype", capabilityType);
@@ -88,7 +88,7 @@ public class CapabilityTypeController {
     }
 
     @PostMapping("/saveCapabilityType")
-    public String saveCapability(@ModelAttribute("capability") CapabilityType capabilityType, RedirectAttributes redirectAttributes) {
+    public String saveCapabilityType(@ModelAttribute("capability") CapabilityType capabilityType, RedirectAttributes redirectAttributes) {
         try {
             capabilityTypeService.save(capabilityType);
             redirectAttributes.addFlashAttribute("success", "Fähigkeit gespeichert...");
@@ -101,7 +101,7 @@ public class CapabilityTypeController {
     }
 
     @GetMapping("/{id}/deleteCapabilityType")
-    public String deleteCapability(RedirectAttributes redirectAttributes, @PathVariable("id") UUID capabilityId) {
+    public String deleteCapabilityType(RedirectAttributes redirectAttributes, @PathVariable("id") UUID capabilityId) {
         if (capabilityId == null) {
             redirectAttributes.addFlashAttribute("danger", "Fähigkeits-ID nicht vorhanden. Fähigkeit konnte nicht gelöscht werden.");
             return "redirect:/capabilitytype";

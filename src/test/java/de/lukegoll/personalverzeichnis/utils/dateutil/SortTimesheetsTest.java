@@ -39,12 +39,12 @@ class SortTimesheetsTest {
     @Test
     void sortTimesheetsWithNullValues() {
         List<List<Timesheet>> lists = SortTimesheets.sortTimesheets(null);
-        assertNull(lists);
+        assertEquals(0,lists.size());
     }
 
     @Test
     void sortTimesheetsWithEmptyValues() {
         List<List<Timesheet>> lists = SortTimesheets.sortTimesheets(new ArrayList<>());
-        assertNull(lists);
+        assertEquals(0,lists.size());
     }
 }

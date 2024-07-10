@@ -41,7 +41,7 @@ public class EmploymentController {
     }
 
     @GetMapping("/{id}/addEmployment")
-    private String addEmployment(Model model, @PathVariable("id") UUID employeeId, RedirectAttributes redirectAttributes) {
+    public String addEmployment(Model model, @PathVariable("id") UUID employeeId, RedirectAttributes redirectAttributes) {
         try {
             if (employeeId == null) {
                 redirectAttributes.addFlashAttribute("danger", "Es konnte keine Anstellung hinzugefügt werden, da die ID des Mitarbeiters nicht bekannt ist.");
@@ -59,7 +59,7 @@ public class EmploymentController {
     }
 
     @GetMapping("/{id}/{employmentId}/editEmployment")
-    private String editEmployment(Model model, @PathVariable("id") UUID employeeId, @PathVariable("employmentId") UUID employmentId, RedirectAttributes redirectAttributes) {
+    public String editEmployment(Model model, @PathVariable("id") UUID employeeId, @PathVariable("employmentId") UUID employmentId, RedirectAttributes redirectAttributes) {
         try {
             if (employmentId == null) {
                 redirectAttributes.addFlashAttribute("danger", "Die Anstellung konnte nicht bearbeitet werden, da die ID nicht vorhanden war.");
@@ -80,13 +80,13 @@ public class EmploymentController {
             return "employees/employments/editEmployment";
         } catch (Exception e) {
             log.error("Employmentseite konnte nicht geladen werden! " + e);
-            redirectAttributes.addFlashAttribute("danger", "Anstellungsseite konnte nicht geladen werde...");
+            redirectAttributes.addFlashAttribute("danger", "Anstellungsseite konnte nicht geladen werden...");
             return "redirect:/" + employeeId;
         }
     }
 
     @PostMapping("/{id}/saveEmployment")
-    public String saveDeployment(@ModelAttribute("employmentForm") EmploymentForm employmentForm, @PathVariable("id") UUID employeeId
+    public String saveEmployment(@ModelAttribute("employmentForm") EmploymentForm employmentForm, @PathVariable("id") UUID employeeId
             , RedirectAttributes redirectAttributes) {
         if (employeeId == null) {
             redirectAttributes.addFlashAttribute("danger", "Anstellung konnte nicht gespeichert werden, da Sie keinem Mitarbeiter zugeordnet werden konnte...");
@@ -151,7 +151,7 @@ public class EmploymentController {
 
 
     @GetMapping("/{id}/{employmentId}/deleteEmployment")
-    private String deleteEmployment(Model model, @PathVariable("id") UUID employeeId,
+    public String deleteEmployment(Model model, @PathVariable("id") UUID employeeId,
                                     @PathVariable("employmentId") UUID employmentId, RedirectAttributes redirectAttributes) {
         try {
             if (employmentId == null) {
@@ -176,7 +176,7 @@ public class EmploymentController {
             return "redirect:/" + employeeId;
         } catch (EmploymentServiceException e) {
             log.error("Anstellung konnte nicht gelöscht werden! " + e);
-            redirectAttributes.addFlashAttribute("danger", "Anstellung konnte nicht gelöscht werde...");
+            redirectAttributes.addFlashAttribute("danger", "Anstellung konnte nicht gelöscht werden...");
             return "redirect:/" + employeeId;
         }
     }

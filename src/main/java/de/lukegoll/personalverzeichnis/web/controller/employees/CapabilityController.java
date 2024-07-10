@@ -40,7 +40,7 @@ public class CapabilityController {
     }
 
     @GetMapping("/{id}/addCapability")
-    private String addCapability(Model model, @PathVariable("id") UUID employeeId, RedirectAttributes redirectAttributes) {
+    public String addCapability(Model model, @PathVariable("id") UUID employeeId, RedirectAttributes redirectAttributes) {
         try {
             if (employeeId == null) {
                 redirectAttributes.addFlashAttribute("danger", "Es konnte keine Fähigkeit hinzugefügt werden, da die ID des Mitarbeiters nicht bekannt ist.");
@@ -58,7 +58,7 @@ public class CapabilityController {
     }
 
     @GetMapping("/{id}/{capabilityId}/editCapability")
-    private String editCapability(Model model, @PathVariable("id") UUID employeeId, @PathVariable("capabilityId") UUID capabilityId, RedirectAttributes redirectAttributes) {
+    public String editCapability(Model model, @PathVariable("id") UUID employeeId, @PathVariable("capabilityId") UUID capabilityId, RedirectAttributes redirectAttributes) {
         try {
             if (capabilityId == null) {
                 redirectAttributes.addFlashAttribute("danger", "Die Fähigkeit konnte nicht bearbeitet werden, da die ID nicht vorhanden war.");
@@ -79,13 +79,13 @@ public class CapabilityController {
             return "employees/capabilities/editCapability";
         } catch (Exception e) {
             log.error("Fähigkeitsseite konnte nicht geladen werden! " + e);
-            redirectAttributes.addFlashAttribute("danger", "Fähigkeitsseite konnte nicht geladen werde...");
+            redirectAttributes.addFlashAttribute("danger", "Fähigkeitsseite konnte nicht geladen werden...");
             return "redirect:/" + employeeId;
         }
     }
 
     @PostMapping("/{id}/saveCapability")
-    public String saveDeployment(@ModelAttribute("capabilityForm") CapabilityForm capabilityForm, @PathVariable("id") UUID employeeId
+    public String saveCapability(@ModelAttribute("capabilityForm") CapabilityForm capabilityForm, @PathVariable("id") UUID employeeId
             , RedirectAttributes redirectAttributes) {
         if (employeeId == null) {
             redirectAttributes.addFlashAttribute("danger", "Fähigkeit konnte nicht gespeichert werden, da Sie keinem Mitarbeiter zugeordnet werden konnte...");
@@ -140,7 +140,7 @@ public class CapabilityController {
 
 
     @GetMapping("/{id}/{capabilityId}/deleteCapability")
-    private String deleteEmployment(Model model, @PathVariable("id") UUID employeeId,
+    public String deleteCapability(Model model, @PathVariable("id") UUID employeeId,
                                     @PathVariable("capabilityId") UUID capabilityId, RedirectAttributes redirectAttributes) {
         try {
             if (capabilityId == null) {
@@ -165,7 +165,7 @@ public class CapabilityController {
             return "redirect:/" + employeeId;
         } catch (CapabilityServiceException e) {
             log.error("Fähigkeit konnte nicht gelöscht werden! " + e);
-            redirectAttributes.addFlashAttribute("danger", "Fähigkeit konnte nicht gelöscht werde...");
+            redirectAttributes.addFlashAttribute("danger", "Fähigkeit konnte nicht gelöscht werden...");
             return "redirect:/" + employeeId;
         }
     }

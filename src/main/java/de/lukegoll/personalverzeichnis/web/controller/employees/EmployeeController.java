@@ -51,7 +51,7 @@ public class EmployeeController {
     }
 
     @GetMapping()
-    private String getEmployees(Model model, @RequestParam(required = false) String keyword,
+    public String getEmployees(Model model, @RequestParam(required = false) String keyword,
                                 @RequestParam(required = false) String capabilityType, @RequestParam(defaultValue = "1", name = "pageNo") int pageNo, @RequestParam(defaultValue = "10", name = "pageSize") int pageSize
             , @RequestParam(required = false, name = "caseId") Long caseId) {
         try {
@@ -99,7 +99,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/addEmployee")
-    public String editEmployee(Model model) {
+    public String addEmployee(Model model) {
         try {
             Employee employee = new Employee();
             EmployeeForm employeeForm = EmployeeForm.builder()
@@ -213,7 +213,7 @@ public class EmployeeController {
 
 
     @PostMapping("/saveEmployee")
-    public String saveEmpployee(@ModelAttribute("employee") EmployeeForm employeeForm, RedirectAttributes redirectAttributes) {
+    public String saveEmployee(@ModelAttribute("employee") EmployeeForm employeeForm, RedirectAttributes redirectAttributes) {
         try {
             Employee employee = employeeForm.getEmployee();
             Department department = null;

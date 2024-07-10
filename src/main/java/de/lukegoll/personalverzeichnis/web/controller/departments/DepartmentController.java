@@ -38,7 +38,7 @@ public class DepartmentController {
     }
 
     @GetMapping()
-    private String getDepartment(Model model, @RequestParam(required = false) String keyword, @RequestParam(defaultValue = "1", name = "pageNo") int pageNo, @RequestParam(defaultValue = "10", name = "pageSize") int pageSize,
+    public String getDepartment(Model model, @RequestParam(required = false) String keyword, @RequestParam(defaultValue = "1", name = "pageNo") int pageNo, @RequestParam(defaultValue = "10", name = "pageSize") int pageSize,
                                  RedirectAttributes redirectAttributes
     ) {
         try {
@@ -83,7 +83,7 @@ public class DepartmentController {
     }
 
     @GetMapping("/addDepartment")
-    public String editDepartment(Model model) {
+    public String addDepartment(Model model) {
         try {
             Department department = new Department();
             model.addAttribute("department", department);

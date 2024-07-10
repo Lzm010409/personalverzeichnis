@@ -35,15 +35,6 @@ public class Employment extends AbstractEntity {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "department")
-    private Department department;
+    private Department department;}
 
-    @Override
-    public String toString() {
-        return "Employment{" +
-                "startDate=" + startDate +
-                ", endDate=" + endDate +
-                ", employee=" + employee.getName() +
-                ", department=" + department == null ? null : department.getName() +
-                '}';
-    }
-}
+

@@ -44,7 +44,7 @@ public class TimesheetController {
     }
 
     @GetMapping()
-    private String getTimesheets(Model model, @RequestParam(required = false) String keyword, @RequestParam(defaultValue = "1", name = "pageNo") int pageNo, @RequestParam(defaultValue = "10", name = "pageSize") int pageSize,
+    public String getTimesheets(Model model, @RequestParam(required = false) String keyword, @RequestParam(defaultValue = "1", name = "pageNo") int pageNo, @RequestParam(defaultValue = "10", name = "pageSize") int pageSize,
                                  RedirectAttributes redirectAttributes
     ) {
         try {

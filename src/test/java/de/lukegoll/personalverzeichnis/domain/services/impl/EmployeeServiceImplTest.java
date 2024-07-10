@@ -35,28 +35,28 @@ class EmployeeServiceImplTest {
     void save() {
         Employee employee = new Employee();
         employeeService.save(employee);
-        assertEquals(11, employeeService.findAll().size());
+        assertEquals(12, employeeService.findAll().size());
     }
 
     @Test
     @Order(2)
     void findAll() {
-        assertEquals(11, employeeService.findAll().size());
+        assertEquals(12, employeeService.findAll().size());
     }
 
     @Test
     @Order(3)
     void findPaged() {
         Page<Employee> page = employeeService.findPaged(Pageable.ofSize(1));
-        assertEquals(11, page.getTotalElements());
-        assertEquals(11, page.getTotalPages());
+        assertEquals(12, page.getTotalElements());
+        assertEquals(12, page.getTotalPages());
     }
 
     @Test
     @Order(4)
     void findAllWhichArentStampedIn() {
         List<Employee> employeeList = employeeService.findAllWhichArentStampedIn();
-        assertEquals(11, employeeList.size());
+        assertEquals(12, employeeList.size());
     }
 
     @Test

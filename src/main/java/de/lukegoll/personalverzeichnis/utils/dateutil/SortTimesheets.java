@@ -12,7 +12,7 @@ public class SortTimesheets {
 
 
     public static List<List<Timesheet>> sortTimesheets(List<Timesheet> timesheets) {
-        if (timesheets == null || timesheets.isEmpty()) return null;
+        if (timesheets == null || timesheets.isEmpty()) return new ArrayList<>();
         List<List<Timesheet>> lists = new ArrayList<>();
         int index = 0;
         for (Timesheet t : timesheets) {
