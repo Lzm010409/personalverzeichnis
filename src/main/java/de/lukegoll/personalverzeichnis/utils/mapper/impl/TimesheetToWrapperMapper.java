@@ -17,9 +17,9 @@ public class TimesheetToWrapperMapper implements EntityMapper<TimesheetWrapper, 
         if (timesheets == null || timesheets.isEmpty()) {
             return null;
         }
-        LocalDateTime start = findMax(timesheets.stream().map(Timesheet::getStartTime).toList());
+        LocalDateTime start = findMin(timesheets.stream().map(Timesheet::getStartTime).toList());
 
-        LocalDateTime end = findMin(timesheets.stream().map(Timesheet::getEndTime).toList());
+        LocalDateTime end = findMax(timesheets.stream().map(Timesheet::getEndTime).toList());
 
         int hours = 0;
         int minutes = 0;

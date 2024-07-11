@@ -12,9 +12,32 @@ Anleitung zur Importierung in Eclipse
 
 
 Projekt Lokal ausführen
-1. JDK 17 installieren
-2. Postgres Serverdaten (bei lokalen Anwendungen meist localhost:5432/postgres) bereitlegen
-3. Postgres Username und Password für DB wissen
-4. Mittels Kommandozeile in Ordner navigieren wo sich personalverzeichnis.jar befindet (cd Ordner mit Jar)
-5. Folgenden Befehl ausführen:
-6. java -Dspring.datasource.url=jdbc:postgresql://Postgress-Adresse -Dspring.datasource.username=Username -Dspring.datasource.password=Password  -jar personalverzeichnis-0.0.1-SNAPSHOT.jar
+
+!!!Achtung!!!
+In der kompilierten .jar Datei werden folgende Parameter für die Postgresql Datenbank angenommen: 
+Es handelt sich um eine frisch instantiierte Postgresql Datenbank mit dem Standarduser: 
+
+Username: postgres
+Password: postgres
+
+und der Standard-Datenbank mit dem Namen postgres, welche lokal auf dem auszuführenden System läuft. 
+Sollte dies zutreffen, dann kann das Programm direkt gestartet werden. Sollte dies nicht so sein, dann müssen
+noch folgende Punkte beachtet werden. 
+
+1. Öffnen Sie die Kommandozeile auf ihrem Gerät Terminal (Linux, MacOS) oder Eingabeaufforderung (Windows)
+2. Navigieren Sie zu dem Ordner, in welchem sich die kompilierte .jar Datei befindet (Bei exportierten Projekten befindet diese sich im /target-Verzeichnis)
+3. Führen Sie den folgenden Befehl aus: 
+   
+        java -Dspring.datasource.url=jdbc:postgresql://Postgress-Adresse -Dspring.datasource.username=Username -Dspring.datasource.password=Password -jar personalverzeichnis-0.0.1-SNAPSHOT.jar
+
+Hierbei ist folgendes zu beachten:
+1. Postgres-Adresse durch die lokal vorliegende Adresse ändern (meist localhost:5432/postgres)
+2. Username durch den gewählten Username ersetzen
+3. Password durch das gewählte Password ersetzen
+
+
+
+!!!Achtung!!!
+
+Das Programm ist so eingestellt, dass ALLE Daten in der angegebenen Datenbank bei Systemstart überschrieben werden.
+Sollten also noch wichtige Daten auf dieser Datenbankinstanz existieren, sichern Sie diese um Datenverlust zu vermeiden
