@@ -129,5 +129,8 @@ public class DepartmentController {
             return "redirect:/department";
         }
     }
-
+    @GetMapping("/cancel")
+    public String cancel(Model model) {
+        return "redirect:/department";
+    }
 }

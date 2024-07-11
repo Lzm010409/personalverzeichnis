@@ -87,7 +87,7 @@
 
                             <div class="row pt-2">
                                 <div class="col-sm">
-                                    <label for="capabilityName" class="form-label">Abteilung</label>
+                                    <label for="capabilityName" class="form-label">Fähigkeit</label>
                                     <select id="capabilityName" class="form-select" th:field="${capabilityForm.capabilityTypeId}">
                                         <option th:each="option: ${capabilityTypes}" th:value="${option.id}"
                                                 th:text="${option.name}"></option>

@@ -88,6 +88,11 @@ public class CapabilityTypeController {
         }
     }
 
+    @GetMapping("/cancel")
+    public String cancel(Model model) {
+        return "redirect:/capabilitytype";
+    }
+
     @PostMapping("/saveCapabilityType")
     public String saveCapabilityType(@ModelAttribute("capability") CapabilityType capabilityType, RedirectAttributes redirectAttributes) {
         try {
