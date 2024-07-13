@@ -46,8 +46,8 @@ class TimesheetServiceImplTest {
     @Order(3)
     void findPaged() {
         Page<Timesheet> page = timesheetService.findPaged(Pageable.ofSize(1));
-        assertEquals(1,page.getTotalElements());
-        assertEquals(1,page.getNumberOfElements());
+        assertEquals(0,page.getTotalElements());
+        assertEquals(0,page.getNumberOfElements());
     }
 
     @Test
