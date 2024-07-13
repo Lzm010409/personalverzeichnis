@@ -7,7 +7,7 @@ import de.lukegoll.personalverzeichnis.domain.specification.filter.JPAFilter;
 import jakarta.persistence.criteria.Join;
 import org.springframework.data.jpa.domain.Specification;
 
-public class NameFilter implements JPAFilter<Specification<Employee>, String> {
+public class NameFilter implements JPAFilter<Employee, String> {
     @Override
     public Specification<Employee> filter(String nameFilter) {
         return (root, query, builder) -> {

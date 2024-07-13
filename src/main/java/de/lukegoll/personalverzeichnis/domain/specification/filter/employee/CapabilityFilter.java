@@ -8,7 +8,7 @@ import de.lukegoll.personalverzeichnis.web.dto.EmployeeFilterDTO;
 import jakarta.persistence.criteria.Join;
 import org.springframework.data.jpa.domain.Specification;
 
-public class CapabilityFilter implements JPAFilter<Specification<Employee>, String> {
+public class CapabilityFilter implements JPAFilter<Employee, String> {
     @Override
     public Specification<Employee> filter(String capabilityName) {
         return (root, query, builder) -> {
