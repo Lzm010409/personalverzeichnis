@@ -91,8 +91,13 @@
                                                th:if="${timesheetwrapper.hours!=0 && timesheetwrapper.minutes!=0}"
                                                th:text="'Gearbeitete Zeit: '+ ${timesheetwrapper.hours} + ' Stunden und ' + ${timesheetwrapper.minutes} + ' Minuten'"></p>
                                             <p class="card-text"
-                                               th:unless="${timesheetwrapper.hours!=0 && timesheetwrapper.minutes!=0}"
-                                            >Konnte nicht berechnet werden</p>
+                                               th:if="${timesheetwrapper.hours==0 && timesheetwrapper.minutes!=0}"
+                                               th:text="'Gearbeitete Minuten: '+ ${timesheetwrapper.minutes}"
+                                            ></p>
+                                            <p class="card-text"
+                                               th:if="${timesheetwrapper.hours==0 && timesheetwrapper.minutes==0}"
+                                               th:text="'Arbeitszeit konnte nicht berechnet werden...'"
+                                            ></p>
                                         </div>
 
                                     </div>

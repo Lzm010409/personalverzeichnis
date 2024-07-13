@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import de.lukegoll.personalverzeichnis.domain.specification.impl.EmployeeSpecificationHelper;
+import de.lukegoll.personalverzeichnis.domain.specification.impl.EmployeeFilterContext;
 import de.lukegoll.personalverzeichnis.web.dto.EmployeeFilterDTO;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,13 +63,13 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Page<Employee> findFiltered(EmployeeFilterDTO employeeFilterDTO, Pageable pageable) {
         try {
-            return employeeRepository.findAll(new EmployeeSpecificationHelper().createSpecifiaction(employeeFilterDTO), pageable);
+            return employeeRepository.findAll(new EmployeeFilterContext().fillContext(employeeFilterDTO), pageable);
         } catch (Exception e) {
             throw new EmployeeServiceException("Es ist ein Fehler beim Abrufen der Capabilities aufgetreten..." + e.getMessage(), e);
         }
     }
 
-
+    @Transactional
     @Override
     public List<Employee> findAllWhichArentStampedIn() {
         try {

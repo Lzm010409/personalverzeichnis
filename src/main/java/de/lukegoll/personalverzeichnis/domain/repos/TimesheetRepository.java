@@ -23,7 +23,7 @@ public interface TimesheetRepository extends JpaRepository<Timesheet, UUID>, Jpa
  
 
 @Query("""
-            select t from Timesheet t where t.endTime is NULL order by t.startTime desc
+            select t from Timesheet t join fetch t.employee where t.endTime is NULL order by t.startTime desc
         """)
     Page<Timesheet> findAllByOrderByCreateDateDesc(Pageable pageable);
 

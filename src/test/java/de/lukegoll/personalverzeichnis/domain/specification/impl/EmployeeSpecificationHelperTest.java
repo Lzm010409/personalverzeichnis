@@ -1,6 +1,7 @@
 package de.lukegoll.personalverzeichnis.domain.specification.impl;
 
 import de.lukegoll.personalverzeichnis.domain.entities.Employee;
+import de.lukegoll.personalverzeichnis.domain.specification.FilterContext;
 import de.lukegoll.personalverzeichnis.web.dto.EmployeeFilterDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.data.jpa.domain.Specification;
@@ -11,15 +12,15 @@ class EmployeeSpecificationHelperTest {
 
     @Test
     void createSpecifiaction() {
-        EmployeeSpecificationHelper employeeSpecificationHelper = new EmployeeSpecificationHelper();
-        Specification<Employee> employeeSpecification = employeeSpecificationHelper.createSpecifiaction(new EmployeeFilterDTO("test"));
+        FilterContext<Employee,EmployeeFilterDTO> employeeSpecificationHelper = new EmployeeFilterContext();
+        Specification<Employee> employeeSpecification = employeeSpecificationHelper.fillContext(new EmployeeFilterDTO("test"));
         assertNotNull(employeeSpecification);
     }
 
     @Test
     void createSpecifiactionWithEmptyFilter() {
-        EmployeeSpecificationHelper employeeSpecificationHelper = new EmployeeSpecificationHelper();
-        Specification<Employee> employeeSpecification = employeeSpecificationHelper.createSpecifiaction(new EmployeeFilterDTO(""));
+        FilterContext<Employee,EmployeeFilterDTO> employeeSpecificationHelper = new EmployeeFilterContext();
+        Specification<Employee> employeeSpecification = employeeSpecificationHelper.fillContext(new EmployeeFilterDTO(""));
         assertNotNull(employeeSpecification);
     }
 

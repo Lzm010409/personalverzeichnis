@@ -4,6 +4,7 @@ import de.lukegoll.personalverzeichnis.domain.entities.Timesheet;
 import de.lukegoll.personalverzeichnis.domain.exceptions.TimesheetServiceException;
 import de.lukegoll.personalverzeichnis.domain.repos.TimesheetRepository;
 import de.lukegoll.personalverzeichnis.domain.services.TimesheetService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -56,6 +57,7 @@ public class TimesheetServiceImpl implements TimesheetService {
         }
     }
 
+    @Transactional
     @Override
     public Page<Timesheet> findPaged(Pageable pageable) {
         try {
